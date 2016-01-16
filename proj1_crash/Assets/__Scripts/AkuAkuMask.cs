@@ -3,9 +3,17 @@ using System.Collections;
 
 public class AkuAkuMask : MonoBehaviour {
 	public bool follow = false;
+	//Vector3 initialRotate = Vector3.zero;
+
+	//void Start(){
+	//	initialRotate.x = 270;
+	//	initialRotate.y = 180;
+	//	this.transform.Rotate (initialRotate);
+	//}
 
 	void OnCollisionEnter(Collision col){
 		if(col.gameObject.tag == "Crash"){
+			Crash.S.numMasks++;
 			follow = true;
 		}
 	}
@@ -19,4 +27,5 @@ public class AkuAkuMask : MonoBehaviour {
 			this.transform.position = pos;
 		}
 	}
+
 }

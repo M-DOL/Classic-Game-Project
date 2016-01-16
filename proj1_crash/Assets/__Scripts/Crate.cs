@@ -39,9 +39,13 @@ public class Crate : MonoBehaviour {
 
 	public virtual void BreakBox(){
 		Vector3 pos = transform.position;
+		Quaternion rot = Quaternion.identity;
+		if (item.name == "AkuAkuMask") {
+			rot = Quaternion.Euler (270, 180, 0);
+		}
 		Destroy (this.gameObject);
 		if(item != null){
-			Instantiate (item, pos, Quaternion.identity);
+			Instantiate (item, pos, rot);
 		}
 	}
 }

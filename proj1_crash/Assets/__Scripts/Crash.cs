@@ -14,6 +14,8 @@ public class Crash : MonoBehaviour {
 	public bool spinning = false;
 	public BoxCollider collider;
 
+	public int numMasks;
+
 	public Vector3 originalPosition;
 	public Quaternion originalRotation;
 	public Vector3 checkpoint = Vector3.zero;
