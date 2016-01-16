@@ -31,6 +31,12 @@ public class CrabEnemy : Enemy {
 				Destroy (this.gameObject);
 				Crash.S.Bounce (3f);
 			}
+
+			if (!killEnemy) {
+				Display.S.DecrementLives ();
+				//Display.S.Restart ();
+				Crash.S.Respawn();
+			}
 		}
 	}
 }

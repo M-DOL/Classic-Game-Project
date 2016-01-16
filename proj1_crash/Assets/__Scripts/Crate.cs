@@ -37,7 +37,7 @@ public class Crate : MonoBehaviour {
 		}
 	}
 
-	void BreakBox(){
+	public virtual void BreakBox(){
 		Vector3 pos = transform.position;
 		Destroy (this.gameObject);
 		if(item != null){

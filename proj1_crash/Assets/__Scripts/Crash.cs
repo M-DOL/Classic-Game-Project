@@ -14,6 +14,10 @@ public class Crash : MonoBehaviour {
 	public bool spinning = false;
 	public BoxCollider collider;
 
+	public Vector3 originalPosition;
+	public Quaternion originalRotation;
+	public Vector3 checkpoint = Vector3.zero;
+
 	float iH, iV;
 	Vector3 vel;
 	float distToGround;
@@ -30,6 +34,9 @@ public class Crash : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		originalPosition = S.transform.position;
+		originalRotation = S.transform.rotation;
+
 		rigid = gameObject.GetComponent<Rigidbody> ();
 		collider = gameObject.GetComponent<BoxCollider> ();
 
@@ -113,5 +120,15 @@ public class Crash : MonoBehaviour {
 			|| Input.GetKey (KeyCode.RightArrow)
 			|| Input.GetKey (KeyCode.UpArrow)
 			|| Input.GetKey (KeyCode.DownArrow);
+	}
+
+	public void Respawn(){
+		if (checkpoint != Vector3.zero) {
+			transform.position = checkpoint;
+			transform.rotation = originalRotation;
+		} else {
+			transform.position = originalPosition;
+			transform.rotation = originalRotation;
+		}
 	}
 }

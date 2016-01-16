@@ -47,4 +47,9 @@ public class Display : MonoBehaviour {
 			IncrementLives();
 		}
 	}
+
+	public void Restart(){
+		// Reload _Scene_0 to restart the game
+		Application.LoadLevel("_Scene0");
+	}
 }
