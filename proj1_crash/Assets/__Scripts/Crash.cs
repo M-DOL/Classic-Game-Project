@@ -15,7 +15,7 @@ public class Crash : MonoBehaviour {
 	public bool jumping = false;
 	public bool falling = false;
 	public bool spinning = false;
-	public BoxCollider collider;
+	public new BoxCollider collider;
 
 	public int numMasks;
 

@@ -4,8 +4,8 @@ using System.Collections;
 public class Crate : MonoBehaviour {
 
 	public GameObject item;
-
-	BoxCollider boxCol;
+    public float bounceVel = 3f;
+	protected BoxCollider boxCol;
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +23,7 @@ public class Crate : MonoBehaviour {
 			if(Crash.S.falling && landed){
 				if (Crash.S.jumping) {
 					BreakBox ();
-					Crash.S.Bounce (3f);
+					Crash.S.Bounce (bounceVel);
 				} else {
 					Crash.S.LandOnCrate ();
 				}
@@ -40,12 +40,13 @@ public class Crate : MonoBehaviour {
 	public virtual void BreakBox(){
 		Vector3 pos = transform.position;
 		Quaternion rot = Quaternion.identity;
-		if (item.name == "AkuAkuMask") {
-			rot = Quaternion.Euler (270, 180, 0);
-		}
 		Destroy (this.gameObject);
 		if(item != null){
-			Instantiate (item, pos, rot);
+            if (item.name == "AkuAkuMask")
+            {
+                rot = Quaternion.Euler(270, 180, 0);
+            }
+            Instantiate (item, pos, rot);
 		}
 	}
 }

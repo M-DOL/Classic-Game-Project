@@ -233,11 +233,17 @@ MonoBehaviour:
   jumpVel: 5
   spinDuration: 0.5
   spinSpeed: 1000
+  jumpCount: 0
+  maxJumpCount: 20
   grounded: 1
   jumping: 1
   falling: 1
   spinning: 0
   collider: {fileID: 0}
+  numMasks: 0
+  originalPosition: {x: 0, y: 0, z: 0}
+  originalRotation: {x: 0, y: 0, z: 0, w: 0}
+  checkpoint: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
