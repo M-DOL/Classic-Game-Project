@@ -8,6 +8,9 @@ public class Crash : MonoBehaviour {
 	public float spinDuration;
 	public float spinSpeed;
 
+	public float jumpCount;
+	public float maxJumpCount;
+
 	public bool grounded = true;
 	public bool jumping = false;
 	public bool falling = false;
@@ -47,7 +50,7 @@ public class Crash : MonoBehaviour {
 
 		groundLayerMask = LayerMask.GetMask ("Ground");
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		// Get movement input
@@ -80,12 +83,14 @@ public class Crash : MonoBehaviour {
 		falling = rigid.velocity.y < 0;
 		grounded = (grounded && !jumping) || OnGround ();
 
-		if (jump > 0 && grounded) {
+		if (jump > 0 && jumpCount < maxJumpCount) {
+			jumpCount++;
 			vel.y = jumpVel;
 			jumping = true;
 		} else {
 			if (grounded) {
 				jumping = false;
+				jumpCount = 0;
 			}
 			vel.y = rigid.velocity.y;
 		}

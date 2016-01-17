@@ -167,6 +167,46 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: maxValue
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: minValue
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: jumpSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: jumpShortSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: _jumpVelocityChange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: _jumpAcceleration
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: _maxJumpTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: _airJumpTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: maxJumpCount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: jumpVel
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
   m_IsPrefabParent: 0
