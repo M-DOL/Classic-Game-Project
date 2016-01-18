@@ -4,13 +4,14 @@ using System.Collections;
 public class MultiCrate : Crate
 {
     public GameObject fruitPrefab;
+    //Fruit sequences last a certain duration with max 10 fruits
+    public float startTime;
+    public float fruitDuration = 8f;
     public int fruitsRemaining = 9;
     void Start()
     {
         bounceVel = 4f;
         boxCol = gameObject.GetComponent<BoxCollider>();
-        //Selects 8 or 10 fruits with a 50:50 chance
-        fruitsRemaining = Random.value > .5f ? 9 : 7;
     }
     public void OnCollisionEnter(Collision col)
     {
@@ -30,17 +31,26 @@ public class MultiCrate : Crate
                 {
                     if (fruitsRemaining > 0)
                     {
+                        if (fruitsRemaining == 9)
+                        {
+                            startTime = Time.time;
+                        }
                         --fruitsRemaining;
                         Vector3 fruitPos = transform.position;
                         fruitPos.y += .5f;
                         fruitPos.z -= .5f;
                         Instantiate(fruitPrefab, fruitPos, Quaternion.identity);
                         Crash.S.Bounce(bounceVel);
+                        if (Time.time - startTime < fruitDuration)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            items = null;
+                        }
                     }
-                    else
-                    {
-                        BreakBox();
-                    }
+                    BreakBox();
                 }
                 else
                 {

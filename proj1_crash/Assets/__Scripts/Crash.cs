@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Crash : MonoBehaviour {
-
 	public float speed = 10f;
 	public float jumpVel = 5f;
 	public float spinDuration = .4f;
@@ -26,14 +26,18 @@ public class Crash : MonoBehaviour {
 	public Quaternion originalRotation;
 	public Vector3 checkpoint = Vector3.zero;
 
-	float iH, iV;
+    //Sound Clips
+    public List<string> soundNames;
+    public List<AudioClip> soundClips;
+    AudioSource crashSound;
+
+    float iH, iV;
 	Vector3 vel;
 	float distToGround;
 	float groundedOffset;
 	Rigidbody rigid;
 	int groundLayerMask;
 	float spinStartTime;
-
 	public static Crash S;
 
 	void Awake(){
@@ -52,6 +56,7 @@ public class Crash : MonoBehaviour {
 		groundedOffset = collider.size.x / 2f;
 
 		groundLayerMask = LayerMask.GetMask ("Ground");
+        crashSound = GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -66,6 +71,7 @@ public class Crash : MonoBehaviour {
         {
 			spinning = true;
 			spinStartTime = Time.time;
+            PlaySound("Spin");
 		}
 		else if(spinning)
         {
@@ -118,6 +124,7 @@ public class Crash : MonoBehaviour {
 		Vector3 vel = rigid.velocity;
 		vel.y = bounceVel;
 		rigid.velocity = vel;
+        PlaySound("CrateBounce");
 	}
 
 	bool OnGround(){
@@ -149,4 +156,12 @@ public class Crash : MonoBehaviour {
 			transform.rotation = originalRotation;
 		}
 	}
+    public void PlaySound(string soundName)
+    {
+        int ind = soundNames.IndexOf(soundName);
+        if(ind != -1)
+        {
+            crashSound.PlayOneShot(soundClips[ind]);
+        }
+    }
 }

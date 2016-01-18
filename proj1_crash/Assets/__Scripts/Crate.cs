@@ -47,7 +47,8 @@ public class Crate : MonoBehaviour {
 		Vector3 pos = transform.position;
 		Quaternion rot = Quaternion.identity;
 		Destroy (this.gameObject);
-        if(items.Count == 0)
+        Crash.S.PlaySound("CrateBreak");
+        if(items == null || items.Count == 0)
         {
             return;
         }

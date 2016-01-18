@@ -108,7 +108,9 @@ MonoBehaviour:
     type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   bounceVel: 3
   fruitPrefab: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  fruitsRemaining: 10
+  startTime: 0
+  fruitDuration: 7
+  fruitsRemaining: 9
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

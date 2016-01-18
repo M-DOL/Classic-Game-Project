@@ -27,6 +27,7 @@ public class Display : MonoBehaviour {
 		if(numLives != maxLives){
 			++numLives;
 			livesText.text = numLives.ToString();
+            Crash.S.PlaySound("ExtraLive");
 		}
 	}
 

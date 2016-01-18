@@ -54,6 +54,7 @@ public class WumpaFruit : MonoBehaviour
         fruitDir = Display.S.fruitDest - transform.position;
         fruitDir = Vector3.Normalize(fruitDir);
         rigid.velocity = fruitDir * countSpeed;
+        Crash.S.PlaySound("WumpaCollect");
     }
     void FlyAway()
     {
@@ -62,5 +63,6 @@ public class WumpaFruit : MonoBehaviour
         Vector3 randDir = Random.insideUnitSphere;
         randDir.y = fruitFlyHeight;
         rigid.velocity = Vector3.Normalize(randDir) * fruitFlySpeed;
+        Crash.S.PlaySound("WumpaHit");
     }
 }

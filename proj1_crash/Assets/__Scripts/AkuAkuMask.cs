@@ -13,9 +13,10 @@ public class AkuAkuMask : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col){
 		if(col.gameObject.tag == "Crash"){
-			Crash.S.numMasks++;
+            Crash.S.numMasks++;
 			follow = true;
-		}
+            Crash.S.PlaySound("AkuAkuPickup");
+        }
 	}
 
 	void FixedUpdate () {
