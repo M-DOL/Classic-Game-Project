@@ -18,13 +18,17 @@ public class AkuAkuMask : MonoBehaviour {
 		}
 	}
 
-	void Update () {
+	void FixedUpdate () {
 		if (follow) {
 			Vector3 pos = this.transform.position;
 			pos.x = Crash.S.transform.position.x + 0.5f;
 			pos.y = Crash.S.transform.position.y + 2f;
 			pos.z = Crash.S.transform.position.z - 3f;
 			this.transform.position = pos;
+            if(!Crash.S.spinning)
+            {
+                transform.eulerAngles = new Vector3(270, 270, 90) + Crash.S.transform.eulerAngles;
+            }
 		}
 	}
 

@@ -5,10 +5,13 @@ public class Crash : MonoBehaviour {
 
 	public float speed = 10f;
 	public float jumpVel = 5f;
-	public float spinDuration;
-	public float spinSpeed;
+	public float spinDuration = .4f;
+    public float airSpinDuration = .2f;
+    public float spinSpeed;
+    public float spinEnd;
+    public float spinCooldown = .3f;
 
-	public float jumpCount;
+    public float jumpCount;
 	public float maxJumpCount;
 
 	public bool grounded = true;
@@ -59,13 +62,18 @@ public class Crash : MonoBehaviour {
 		float jump = Input.GetAxis ("Jump");
 		float spin = Input.GetAxis ("Fire1");
 
-		if(!spinning && spin > 0){
+		if(Input.GetKeyDown(KeyCode.S) && !spinning && spin > 0 && Time.time - spinEnd > spinCooldown)
+        {
 			spinning = true;
 			spinStartTime = Time.time;
 		}
-
-		if(Time.time - spinStartTime > spinDuration){
-			spinning = false;
+		else if(spinning)
+        {
+            if(((jumping || falling) && Time.time - spinStartTime > airSpinDuration) || Time.time - spinStartTime > spinDuration)
+            {
+                spinning = false;
+                spinEnd = Time.time;
+            }
 		}
 
 		// Set the x and z values of new velocity
@@ -73,17 +81,20 @@ public class Crash : MonoBehaviour {
 		vel.z += iV * speed;
 		vel.x += iH * speed;
 
-		if(spinning){
+		if(spinning)
+        {
 			transform.Rotate (Vector3.up, spinSpeed * Time.fixedTime);
 		}
-		else if(GetArrowInput() && vel != Vector3.zero){
+		else if(GetArrowInput() && vel != Vector3.zero)
+        {
 			transform.rotation = Quaternion.LookRotation (vel);
 		}
 
 		falling = rigid.velocity.y < 0;
 		grounded = (grounded && !jumping) || OnGround ();
 
-		if (jump > 0 && jumpCount < maxJumpCount) {
+		if (jump > 0 && jumpCount < maxJumpCount)
+        {
 			jumpCount++;
 			vel.y = jumpVel;
 			jumping = true;

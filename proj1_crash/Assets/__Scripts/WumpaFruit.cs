@@ -5,11 +5,13 @@ public class WumpaFruit : MonoBehaviour
 {
     public Rigidbody rigid;
     public float rotSpeed = 3f;
-    public float flySpeed = 300f;
-    public bool flying = false;
-    public float flyDuration = 1f;
-    public float flyStartTime;
+    public float countSpeed = 300f;
+    public float fruitFlySpeed = 100f;
+    public bool flying = false, knocked = false;
+    public float knockStart;
+    public float knockDur = 1f;
     public float sizeCorrection = .35f;
+    public float fruitFlyHeight = .5f;
     public Vector3 fruitDir;
     void Start()
     {
@@ -17,6 +19,10 @@ public class WumpaFruit : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if(knocked && Time.time - knockStart > knockDur)
+        {
+            Destroy(gameObject);
+        }
         if (!flying)
         {
             transform.RotateAround(transform.position, Vector3.up, rotSpeed);
@@ -29,26 +35,32 @@ public class WumpaFruit : MonoBehaviour
                 Display.S.IncrementFruit();
                 Destroy(gameObject);
             }
-            /*if (Time.time - flyStartTime > flyDuration)
-            {
-                Display.S.IncrementFruit();
-                Destroy(gameObject);
-            }*/
         }
     }
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "Crash")
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) || col.gameObject.tag == "MultiCrate")
         {
             FlyToCounter();
         }
+        else if(col.gameObject.tag == "Crash")
+        {
+            FlyAway();
+        }
     }
-    void FlyToCounter()
+    public void FlyToCounter()
     {
         flying = true;
         fruitDir = Display.S.fruitDest - transform.position;
         fruitDir = Vector3.Normalize(fruitDir);
-        flyStartTime = Time.time;
-        rigid.velocity = fruitDir * flySpeed;
+        rigid.velocity = fruitDir * countSpeed;
+    }
+    void FlyAway()
+    {
+        knocked = true;
+        knockStart = Time.time;
+        Vector3 randDir = Random.insideUnitSphere;
+        randDir.y = fruitFlyHeight;
+        rigid.velocity = Vector3.Normalize(randDir) * fruitFlySpeed;
     }
 }

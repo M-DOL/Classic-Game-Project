@@ -247,11 +247,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigid: {fileID: 0}
   rotSpeed: 3
-  flySpeed: 300
+  countSpeed: 300
+  fruitFlySpeed: 100
   flying: 0
-  flyDuration: 1
-  flyStartTime: 0
+  knocked: 0
+  knockStart: 0
+  knockDur: 1.5
   sizeCorrection: 0.35
+  fruitFlyHeight: 0.5
   fruitDir: {x: 0, y: 0, z: 0}
 --- !u!135 &13556036
 SphereCollider:

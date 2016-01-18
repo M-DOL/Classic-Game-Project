@@ -35,7 +35,8 @@ public class Display : MonoBehaviour {
 			--numLives;
 			livesText.text = numLives.ToString ();
 		} else {
-			// Game Over
+            // Game Over
+            SceneManager.LoadScene("_Scene_GameOver");
 		}
 	}
 

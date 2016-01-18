@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
+[System.Serializable]
+public struct ObjectSet
+{
+    public int numObjects;
+    public GameObject type;
+}
 public class Crate : MonoBehaviour {
-
-	public GameObject item;
+	public List<ObjectSet> items;
     public float bounceVel = 3f;
 	protected BoxCollider boxCol;
-
+    static System.Random rand = new System.Random();
 	// Use this for initialization
 	void Start () {
 		boxCol = gameObject.GetComponent<BoxCollider>();
@@ -37,16 +42,35 @@ public class Crate : MonoBehaviour {
 		}
 	}
 
-	public virtual void BreakBox(){
+	public virtual void BreakBox()
+    {
 		Vector3 pos = transform.position;
 		Quaternion rot = Quaternion.identity;
 		Destroy (this.gameObject);
-		if(item != null){
-            if (item.name == "AkuAkuMask")
+        if(items.Count == 0)
+        {
+            return;
+        }
+        int choice = rand.Next(items.Count);
+        ObjectSet objects = items[choice];
+		if(objects.type != null){
+            if (objects.type.name == "AkuAkuMask")
             {
                 rot = Quaternion.Euler(270, 180, 0);
             }
-            Instantiate (item, pos, rot);
+            if(objects.numObjects == 1)
+            {
+                Instantiate(objects.type, pos, rot);
+                return;
+            }
+            //For bunches of Wumpa Fruits
+            for(int i = 0; i < objects.numObjects; ++i)
+            {
+                Vector3 initPoint = Random.insideUnitSphere;
+                initPoint.y = 0;
+                initPoint += pos;
+                Instantiate(objects.type, initPoint, rot);
+            }
 		}
 	}
 }

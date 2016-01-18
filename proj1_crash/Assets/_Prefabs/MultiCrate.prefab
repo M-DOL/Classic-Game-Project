@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11468860}
   m_Layer: 0
   m_Name: MultiCrate
-  m_TagString: Untagged
+  m_TagString: MultiCrate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,8 +103,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338374f54d5df0743a9d0e216e8e038f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
+  items:
+  - numObjects: 1
+    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   bounceVel: 3
+  fruitPrefab: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   fruitsRemaining: 10
 --- !u!1001 &100100000
 Prefab:
@@ -112,7 +115,27 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: items.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: MultiCrate
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fruitPrefab
+      value: 
+      objectReference: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
+    - target: {fileID: 0}
+      propertyPath: items.Array.data[0].numObjects
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: items.Array.data[0].type
+      value: 
+      objectReference: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 140008}

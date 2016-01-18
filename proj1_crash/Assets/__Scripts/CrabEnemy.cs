@@ -36,7 +36,7 @@ public class CrabEnemy : Enemy {
 				if(Crash.S.numMasks > 0){
 					
 				}
-				Display.S.DecrementLives ();
+				Display.S.DecrementLives();
 				//Display.S.Restart ();
 				Crash.S.Respawn();
 			}

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Crash
   - Wall
+  - MultiCrate
   layers:
   - Default
   - TransparentFX

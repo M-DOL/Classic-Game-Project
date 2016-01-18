@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MultiCrate : Crate
 {
+    public GameObject fruitPrefab;
     public int fruitsRemaining = 9;
     void Start()
     {
@@ -17,7 +18,7 @@ public class MultiCrate : Crate
         {
             if (Crash.S.spinning)
             {
-                item = null;
+                items = null;
                 BreakBox();
                 return;
             }
@@ -30,8 +31,11 @@ public class MultiCrate : Crate
                     if (fruitsRemaining > 0)
                     {
                         --fruitsRemaining;
+                        Vector3 fruitPos = transform.position;
+                        fruitPos.y += .5f;
+                        fruitPos.z -= .5f;
+                        Instantiate(fruitPrefab, fruitPos, Quaternion.identity);
                         Crash.S.Bounce(bounceVel);
-                        Display.S.IncrementFruit();
                     }
                     else
                     {
@@ -49,7 +53,7 @@ public class MultiCrate : Crate
     {
         if (col.gameObject.tag == "Crash" && Crash.S.spinning)
         {
-            item = null;
+            items = null;
             BreakBox();
         }
     }
