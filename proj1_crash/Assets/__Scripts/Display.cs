@@ -11,8 +11,8 @@ public class Display : MonoBehaviour {
 	public int numLives = 3;
 	public Text livesText;
 	public Text fruitText;
-
-	void Awake(){
+    public Vector3 fruitDest;
+    void Awake(){
 		S = this;
 	}
 
@@ -20,7 +20,8 @@ public class Display : MonoBehaviour {
 	void Start () {
 		livesText = transform.FindChild ("NumLives").GetComponent<Text> ();
 		fruitText = transform.FindChild ("NumFruits").GetComponent<Text> ();
-	}
+        fruitDest = transform.FindChild("FruitIcon").transform.position;
+    }
 	
 	public void IncrementLives(){
 		if(numLives != maxLives){
