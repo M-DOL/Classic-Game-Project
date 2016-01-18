@@ -442,10 +442,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 11468860, guid: 1969138ebb4e5134f8c18ce92c5b9fdf, type: 2}
-      propertyPath: items.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 488690, guid: 1969138ebb4e5134f8c18ce92c5b9fdf, type: 2}
       propertyPath: m_LocalPosition.x
       value: 3.256
@@ -476,19 +472,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 488690, guid: 1969138ebb4e5134f8c18ce92c5b9fdf, type: 2}
       propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 11468860, guid: 1969138ebb4e5134f8c18ce92c5b9fdf, type: 2}
-      propertyPath: fruitPrefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 11468860, guid: 1969138ebb4e5134f8c18ce92c5b9fdf, type: 2}
-      propertyPath: fruitDuration
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 11468860, guid: 1969138ebb4e5134f8c18ce92c5b9fdf, type: 2}
-      propertyPath: fruitsRemaining
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1969138ebb4e5134f8c18ce92c5b9fdf, type: 2}

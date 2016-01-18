@@ -10,6 +10,7 @@ public struct ObjectSet
 public class Crate : MonoBehaviour {
 	public List<ObjectSet> items;
     public float bounceVel = 3f;
+    public float itemOffset = .5f;
 	protected BoxCollider boxCol;
     static System.Random rand = new System.Random();
 	// Use this for initialization
@@ -61,6 +62,7 @@ public class Crate : MonoBehaviour {
             }
             if(objects.numObjects == 1)
             {
+                pos.y += itemOffset;
                 Instantiate(objects.type, pos, rot);
                 return;
             }
