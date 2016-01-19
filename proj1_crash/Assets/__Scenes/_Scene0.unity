@@ -336,9 +336,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 131204, guid: c9192a7df70ace8489bd88d0a049d52e, type: 2}
       propertyPath: m_Name
-      value: Crate (1)
+      value: BounceCrate
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 2381670, guid: c9192a7df70ace8489bd88d0a049d52e, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c57e642ccafb89a409b06792a6fe344e, type: 2}
+    m_RemovedComponents:
+    - {fileID: 11448046, guid: c9192a7df70ace8489bd88d0a049d52e, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: c9192a7df70ace8489bd88d0a049d52e, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &403350808
@@ -503,6 +508,10 @@ Prefab:
     - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
       propertyPath: falling
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11463110, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
+      propertyPath: jumpDur
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1a8d33deb11318445b663e06baf990c7, type: 2}
@@ -1313,6 +1322,29 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1314450152}
+--- !u!1 &1372714925 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 131204, guid: c9192a7df70ace8489bd88d0a049d52e, type: 2}
+  m_PrefabInternal: {fileID: 243772078}
+--- !u!114 &1372714926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1372714925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d19fae3e3fa004ca5833f9da7884a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  bounceVel: 3
+  itemOffset: 0.5
+  invincible: 0
+  rigid: {fileID: 0}
+  crateLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1372776335
 GameObject:
   m_ObjectHideFlags: 0

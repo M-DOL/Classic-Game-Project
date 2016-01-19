@@ -13,8 +13,12 @@ public class Crash : MonoBehaviour {
 
     public float jumpCount;
 	public float maxJumpCount;
+    public float jumpStart;
+    public float jumpDur = .5f;
+    public bool dontJump = false;
+    public float jump, spin;
 
-	public bool grounded = true;
+    public bool grounded = true;
 	public bool jumping = false;
 	public bool falling = false;
 	public bool spinning = false;
@@ -58,15 +62,17 @@ public class Crash : MonoBehaviour {
 		groundLayerMask = LayerMask.GetMask ("Ground");
         crashSound = GetComponent<AudioSource>();
 	}
-
-	// Update is called once per frame
-	void FixedUpdate () {
-		// Get movement input
-		iH = Input.GetAxis("Horizontal");
-		iV = Input.GetAxis ("Vertical");
-		float jump = Input.GetAxis ("Jump");
-		float spin = Input.GetAxis ("Fire1");
-
+    void Update()
+    {
+        // Get movement input
+        iH = Input.GetAxis("Horizontal");
+        iV = Input.GetAxis("Vertical");
+        jump = Input.GetAxis("Jump");
+        spin = Input.GetAxis("Fire1");
+    }
+    // Update is called once per frame
+    void FixedUpdate () {
+		
 		if(Input.GetKeyDown(KeyCode.S) && !spinning && spin > 0 && Time.time - spinEnd > spinCooldown)
         {
 			spinning = true;
@@ -98,19 +104,29 @@ public class Crash : MonoBehaviour {
         //-.01f because of floating number calculations.
 		falling = rigid.velocity.y < -.01f;
 		grounded = (grounded && !jumping) || OnGround ();
-
-		if (jump > 0 && jumpCount < maxJumpCount)
+        if(jump > 0 && !jumping)
         {
-			jumpCount++;
-			vel.y = jumpVel;
-			jumping = true;
-		} else {
+            jumpStart = Time.time;
+            jumping = true;
+        }
+		if (jump > 0 && jumping && Time.time - jumpStart < jumpDur && !falling)
+        {
+                vel.y = jumpVel;
+		}
+        else if(Time.time - jumpStart > jumpDur)
+        {
 			if (grounded) {
 				jumping = false;
 				jumpCount = 0;
 			}
-			vel.y = rigid.velocity.y;
-		}
+
+            vel.y = rigid.velocity.y;
+        }
+        if(!jumping)
+        {
+
+            vel.y = rigid.velocity.y;
+        }
 
 		// Apply our new velocity
 		rigid.velocity = vel;
