@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 public class Crash : MonoBehaviour {
 	public float speed = 10f;
-	public float jumpVel = 5f;
-	public float spinDuration = .4f;
+
+    public float spinDuration = .4f;
     public float airSpinDuration = .2f;
     public float spinSpeed;
     public float spinEnd;
     public float spinCooldown = .3f;
+    public bool spin;
 
-    public float jumpCount;
-	public float maxJumpCount;
-    public float jumpStart;
+    public float jumpVel = 5f;
+    public float jumpStartTime;
     public float jumpDur = .5f;
-    public bool dontJump = false;
-    public float jump, spin;
+    public float jump;
+    public bool jumpStart, jumpCont;
 
     public bool grounded = true;
 	public bool jumping = false;
@@ -62,19 +62,34 @@ public class Crash : MonoBehaviour {
 		groundLayerMask = LayerMask.GetMask ("Ground");
         crashSound = GetComponent<AudioSource>();
 	}
+
+    // Update is called once per frame
     void Update()
     {
         // Get movement input
         iH = Input.GetAxis("Horizontal");
         iV = Input.GetAxis("Vertical");
+        spin = Input.GetKeyDown(KeyCode.S);
+        jumpStart = Input.GetKeyDown(KeyCode.A);
         jump = Input.GetAxis("Jump");
-        spin = Input.GetAxis("Fire1");
-    }
-    // Update is called once per frame
-    void FixedUpdate () {
-		
-		if(Input.GetKeyDown(KeyCode.S) && !spinning && spin > 0 && Time.time - spinEnd > spinCooldown)
+        if (!jumping && jumpStart)
         {
+            jumping = true;
+            jumpCont = true;
+            jumpStartTime = Time.time;
+        }
+        if ((jumpCont &&
+            Input.GetKeyUp(KeyCode.A)) ||
+            Time.time - jumpStartTime > jumpDur)
+        {
+            jumpCont = false;
+        }
+    }
+    void FixedUpdate () {
+        //Spinning
+        if (spin && !spinning && Time.time - spinEnd > spinCooldown)
+        {
+            spin = false;
 			spinning = true;
 			spinStartTime = Time.time;
             PlaySound("Spin");
@@ -99,35 +114,22 @@ public class Crash : MonoBehaviour {
 		}
 		else if(GetArrowInput() && vel != Vector3.zero)
         {
-			transform.rotation = Quaternion.LookRotation (vel);
+			transform.rotation = Quaternion.LookRotation(vel);
 		}
         //-.01f because of floating number calculations.
 		falling = rigid.velocity.y < -.01f;
 		grounded = (grounded && !jumping) || OnGround ();
-        if(jump > 0 && !jumping)
-        {
-            jumpStart = Time.time;
-            jumping = true;
-        }
-		if (jump > 0 && jumping && Time.time - jumpStart < jumpDur && !falling)
+		if (jumpCont)
         {
                 vel.y = jumpVel;
 		}
-        else if(Time.time - jumpStart > jumpDur)
+        else
         {
 			if (grounded) {
 				jumping = false;
-				jumpCount = 0;
 			}
-
             vel.y = rigid.velocity.y;
         }
-        if(!jumping)
-        {
-
-            vel.y = rigid.velocity.y;
-        }
-
 		// Apply our new velocity
 		rigid.velocity = vel;
 	}

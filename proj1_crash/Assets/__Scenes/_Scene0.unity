@@ -1455,7 +1455,7 @@ MonoBehaviour:
   numFruit: 0
   numLives: 3
   breakStart: 0
-  breakDur: 0.5
+  breakDur: 0.3
   remainingIncrementFruits: 0
   visibleDur: 2
   visibleStart: 0
