@@ -12,6 +12,7 @@ public class MultiCrate : Crate
     {
         bounceVel = 4f;
         boxCol = gameObject.GetComponent<BoxCollider>();
+        crateLayerMask = LayerMask.GetMask("Crate");
     }
     public void OnCollisionEnter(Collision col)
     {
@@ -20,7 +21,8 @@ public class MultiCrate : Crate
             if (Crash.S.spinning)
             {
                 items = null;
-                BreakBox();
+                bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
+                BreakBox(crateAbove);
                 return;
             }
 
@@ -50,7 +52,8 @@ public class MultiCrate : Crate
                             items = null;
                         }
                     }
-                    BreakBox();
+                    bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
+                    BreakBox(crateAbove);
                 }
                 else
                 {
@@ -64,7 +67,8 @@ public class MultiCrate : Crate
         if (col.gameObject.tag == "Crash" && Crash.S.spinning)
         {
             items = null;
-            BreakBox();
+            bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
+            BreakBox(crateAbove);
         }
     }
 }

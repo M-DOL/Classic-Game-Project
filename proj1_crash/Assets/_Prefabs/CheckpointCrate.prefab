@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2383312}
   - 54: {fileID: 5435356}
   - 114: {fileID: 11401262}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CheckpointCrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,14 +103,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0ffe1a942f6354e9d0d33a7ae9fe22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  items: []
+  bounceVel: 3
+  itemOffset: 0.5
+  invincible: 0
+  rigid: {fileID: 0}
+  crateLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129190}

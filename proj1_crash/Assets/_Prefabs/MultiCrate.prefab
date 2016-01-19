@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2353116}
   - 54: {fileID: 5444214}
   - 114: {fileID: 11468860}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MultiCrate
   m_TagString: MultiCrate
   m_Icon: {fileID: 0}
@@ -107,6 +107,12 @@ MonoBehaviour:
   - numObjects: 1
     type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   bounceVel: 3
+  itemOffset: 0.5
+  invincible: 0
+  rigid: {fileID: 0}
+  crateLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   fruitPrefab: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   startTime: 0
   fruitDuration: 7
@@ -138,6 +144,10 @@ Prefab:
       propertyPath: items.Array.data[0].type
       value: 
       objectReference: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 140008}

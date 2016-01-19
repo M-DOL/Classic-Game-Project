@@ -30,7 +30,7 @@ GameObject:
   - 114: {fileID: 11448780}
   m_Layer: 9
   m_Name: WumpaFruit
-  m_TagString: Untagged
+  m_TagString: Fruit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -252,9 +252,14 @@ MonoBehaviour:
   flying: 0
   knocked: 0
   knockStart: 0
-  knockDur: 1.5
+  knockDur: 1
   sizeCorrection: 0.35
+  startTime: 0
+  invincibileDur: 0.5
   fruitFlyHeight: 0.5
+  crateLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   fruitDir: {x: 0, y: 0, z: 0}
 --- !u!135 &13556036
 SphereCollider:
@@ -274,7 +279,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Fruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: invincibileDur
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129888}

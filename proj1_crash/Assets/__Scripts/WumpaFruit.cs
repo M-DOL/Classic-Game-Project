@@ -11,11 +11,16 @@ public class WumpaFruit : MonoBehaviour
     public float knockStart;
     public float knockDur = 1f;
     public float sizeCorrection = .35f;
+    public float startTime;
+    public float invincibileDur = .3f;
     public float fruitFlyHeight = .5f;
+    public LayerMask crateLayerMask;
     public Vector3 fruitDir;
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody>();
+        startTime = Time.time;
+        crateLayerMask = LayerMask.GetMask("Crate");
     }
     void FixedUpdate()
     {
@@ -32,18 +37,31 @@ public class WumpaFruit : MonoBehaviour
             transform.localScale += sizeCorrection * Vector3.one;
             if(transform.position.z > Display.S.fruitDest.z)
             {
-                Display.S.IncrementFruit();
+                Display.S.OrderIncrementFruit();
                 Destroy(gameObject);
             }
         }
     }
     void OnTriggerEnter(Collider col)
     {
-        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) || col.gameObject.tag == "MultiCrate")
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) || col.gameObject.tag == "MultiCrate" || col.gameObject.tag == "Crate")
         {
             FlyToCounter();
         }
-        else if(col.gameObject.tag == "Crash")
+        //Prevents fruit from crates being spun away immediately
+        else if(col.gameObject.tag == "Crash" && Time.time - startTime > invincibileDur)
+        {
+            FlyAway();
+        }
+    }
+    void OnTriggerStay(Collider col)
+    {
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) || col.gameObject.tag == "MultiCrate" || col.gameObject.tag == "Crate")
+        {
+            FlyToCounter();
+        }
+        //Prevents fruit from crates being spun away immediately
+        else if (col.gameObject.tag == "Crash" && Time.time - startTime > invincibileDur)
         {
             FlyAway();
         }

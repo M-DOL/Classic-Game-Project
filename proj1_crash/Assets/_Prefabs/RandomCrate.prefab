@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2335222}
   - 54: {fileID: 5489052}
   - 114: {fileID: 11419222}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RandomCrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,6 +125,12 @@ MonoBehaviour:
   - numObjects: 9
     type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   bounceVel: 3
+  itemOffset: 0.5
+  invincible: 0
+  rigid: {fileID: 0}
+  crateLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -216,6 +222,10 @@ Prefab:
       propertyPath: items.Array.data[9].type
       value: 
       objectReference: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184902}

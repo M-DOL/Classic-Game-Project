@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2381670}
   - 54: {fileID: 5405454}
   - 114: {fileID: 11473812}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MaskCrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +107,12 @@ MonoBehaviour:
   - numObjects: 1
     type: {fileID: 184736, guid: 2825ea18bcf32fa4b88d72fde1fdb0ca, type: 2}
   bounceVel: 3
+  itemOffset: 0.5
+  invincible: 0
+  rigid: {fileID: 0}
+  crateLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -134,6 +140,10 @@ Prefab:
       propertyPath: items.Array.data[0].type
       value: 
       objectReference: {fileID: 184736, guid: 2825ea18bcf32fa4b88d72fde1fdb0ca, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 131204}

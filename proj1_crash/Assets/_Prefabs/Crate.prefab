@@ -13,9 +13,9 @@ GameObject:
   - 23: {fileID: 2381670}
   - 54: {fileID: 5405454}
   - 114: {fileID: 11448046}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Crate
-  m_TagString: Untagged
+  m_TagString: Crate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,13 +125,27 @@ MonoBehaviour:
   - numObjects: 4
     type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   bounceVel: 3
+  itemOffset: 0.5
+  invincible: 0
+  rigid: {fileID: 0}
+  crateLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Crate
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 131204}

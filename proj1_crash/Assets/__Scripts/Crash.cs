@@ -31,11 +31,11 @@ public class Crash : MonoBehaviour {
     public List<AudioClip> soundClips;
     AudioSource crashSound;
 
+    public Rigidbody rigid;
     float iH, iV;
 	Vector3 vel;
 	float distToGround;
 	float groundedOffset;
-	Rigidbody rigid;
 	int groundLayerMask;
 	float spinStartTime;
 	public static Crash S;
@@ -95,8 +95,8 @@ public class Crash : MonoBehaviour {
         {
 			transform.rotation = Quaternion.LookRotation (vel);
 		}
-
-		falling = rigid.velocity.y < 0;
+        //-.01f because of floating number calculations.
+		falling = rigid.velocity.y < -.01f;
 		grounded = (grounded && !jumping) || OnGround ();
 
 		if (jump > 0 && jumpCount < maxJumpCount)

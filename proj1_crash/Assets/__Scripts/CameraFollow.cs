@@ -2,14 +2,22 @@
 using System.Collections;
 
 public class CameraFollow : MonoBehaviour {
-
-	public float followDistance = 7.5f;
-
+    public float frontFollowDistance = 4.8f;
+	public float backFollowDistance = 7.5f;
+    public bool frontFacing = true;
 	
 	// Update is called once per frame
-	void Update () {
-		Vector3 pos = Camera.main.transform.position;
-		pos.z = Crash.S.transform.position.z - followDistance;
-		Camera.main.transform.position = pos;
+	void FixedUpdate () {
+        Vector3 pos = Camera.main.transform.position;
+        if (Crash.S.rigid.velocity.z > .01f)
+        {
+            frontFacing = true;
+        }
+        else if(Crash.S.rigid.velocity.z < -.01f)
+        {
+            frontFacing = false;
+        }
+        pos.z = Crash.S.transform.position.z - (frontFacing ? frontFollowDistance : backFollowDistance);
+        Camera.main.transform.position = pos;
 	}
 }
