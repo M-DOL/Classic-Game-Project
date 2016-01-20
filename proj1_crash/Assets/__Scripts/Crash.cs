@@ -15,7 +15,6 @@ public class Crash : MonoBehaviour {
     public float jumpVel = 5f;
     public float jumpStartTime;
     public float jumpDur = .5f;
-    public float jump;
     public bool jumpStart, jumpCont;
 
     public bool grounded = true;
@@ -71,7 +70,6 @@ public class Crash : MonoBehaviour {
         iV = Input.GetAxis("Vertical");
         spin = Input.GetKeyDown(KeyCode.S);
         jumpStart = Input.GetKeyDown(KeyCode.A);
-        jump = Input.GetAxis("Jump");
         if (!jumping && jumpStart)
         {
             jumping = true;

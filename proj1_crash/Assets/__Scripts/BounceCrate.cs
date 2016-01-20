@@ -21,10 +21,9 @@ public class BounceCrate : Crate {
             }
 
             bool landed = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .05f;
-            print("landed: " + landed);
             if (Crash.S.falling && landed)
             {
-                   Crash.S.Bounce(2*bounceVel);
+                   Crash.S.Bounce(2 * bounceVel);
             }
         }
     }
