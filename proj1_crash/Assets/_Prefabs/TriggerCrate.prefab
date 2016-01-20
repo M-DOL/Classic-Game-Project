@@ -12,7 +12,7 @@ GameObject:
   - 65: {fileID: 6575858}
   - 23: {fileID: 2358978}
   - 54: {fileID: 5406022}
-  - 114: {fileID: 11408580}
+  - 114: {fileID: 11423614}
   m_Layer: 11
   m_Name: TriggerCrate
   m_TagString: Crate
@@ -92,7 +92,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11408580
+--- !u!114 &11423614
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -100,30 +100,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 115380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21e6d2b8bf4bc874480e3b67b8a76a2e, type: 3}
+  m_Script: {fileID: 11500000, guid: bf59521605f205948b93f7284369dcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - numObjects: 1
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 1
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 1
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 1
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 1
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 2
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 2
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 3
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 3
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-  - numObjects: 4
-    type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
+  items: []
   bounceVel: 3
   itemOffset: 0.5
   invincible: 0
@@ -131,6 +111,7 @@ MonoBehaviour:
   crateLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  triggered: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
