@@ -70,6 +70,13 @@ public class TurtleEnemy : Enemy
 
     void OnCollisionEnter(Collision col)
     {
+        if (col.gameObject.tag == "Enemy")
+        {
+            if (launched)
+            {
+                Destroy(col.gameObject);
+            }
+        }
         if (col.gameObject.tag == "Crash")
         {
             if (Crash.S.spinning)

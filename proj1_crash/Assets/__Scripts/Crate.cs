@@ -16,15 +16,25 @@ public class Crate : MonoBehaviour {
     public LayerMask crateLayerMask;
 	protected BoxCollider boxCol;
     static System.Random rand = new System.Random();
+
+    //public static Crate S;
 	// Use this for initialization
 	void Start () {
+        //S = this;
 		boxCol = gameObject.GetComponent<BoxCollider>();
         rigid = GetComponent<Rigidbody>();
         crateLayerMask = LayerMask.GetMask("Crate");
 	}
 	
 	void OnCollisionEnter (Collision col) {
-        if(rigid.velocity.y < 0f)
+        if (col.gameObject.tag == "Enemy")
+        {
+            if (Enemy.S.launched)
+            {
+                BreakBox(true);
+            }
+        }
+            if (rigid.velocity.y < 0f)
         {
             invincible = true;
             return;

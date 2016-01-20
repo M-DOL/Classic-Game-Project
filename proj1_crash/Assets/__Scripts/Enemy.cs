@@ -12,8 +12,13 @@ public class Enemy : MonoBehaviour {
 	protected BoxCollider boxCol;
 	protected Rigidbody rigid;
 
-	// Use this for initialization
-	void Start () {
+    public static Enemy S;
+    void Awake()
+    {
+        S = this;
+    }
+    // Use this for initialization
+    void Start () {
 		rigid = gameObject.GetComponent<Rigidbody> ();
 		boxCol = gameObject.GetComponent<BoxCollider> ();
 	}
@@ -34,4 +39,4 @@ public class Enemy : MonoBehaviour {
 		rigid.velocity = Vector3.forward * launchSpeed;
 	}
 
-}
+    }

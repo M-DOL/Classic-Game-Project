@@ -16,7 +16,14 @@ public class CrabEnemy : Enemy {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if(col.gameObject.tag == "Wall"){
+        if (col.gameObject.tag == "Enemy")
+        {
+            if (launched)
+            {
+                Destroy(col.gameObject);
+            }
+        }
+        if (col.gameObject.tag == "Wall"){
 			speed *= -1;
 		}
 		else if(col.gameObject.tag == "Crash"){
