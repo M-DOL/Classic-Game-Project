@@ -32,7 +32,7 @@ public class CrabEnemy : Enemy {
 				return;
 			}
 
-			bool killEnemy = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .01f;
+			bool killEnemy = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .1f;
 
 			if(Crash.S.falling && killEnemy){
 				Destroy (this.gameObject);
@@ -40,12 +40,17 @@ public class CrabEnemy : Enemy {
 			}
 
 			if (!killEnemy) {
-				if(Crash.S.numMasks > 0){
-					
-				}
-				Display.S.DecrementLives();
-				//Display.S.Restart ();
-				Crash.S.Respawn();
+                if (Crash.S.numMasks > 0)
+                {
+                    Destroy(this.gameObject);
+                    AkuAkuMask.mask.LoseMask();
+                }
+                else
+                {
+                    Display.S.DecrementLives();
+                    //Display.S.Restart ();
+                    Crash.S.Respawn();
+                }
 			}
 		}
 	}

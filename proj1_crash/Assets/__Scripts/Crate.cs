@@ -17,10 +17,8 @@ public class Crate : MonoBehaviour {
 	protected BoxCollider boxCol;
     static System.Random rand = new System.Random();
 
-    //public static Crate S;
 	// Use this for initialization
 	void Start () {
-        //S = this;
 		boxCol = gameObject.GetComponent<BoxCollider>();
         rigid = GetComponent<Rigidbody>();
         crateLayerMask = LayerMask.GetMask("Crate");

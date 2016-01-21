@@ -97,7 +97,8 @@ public class TurtleEnemy : Enemy
             {
                 if (Crash.S.numMasks > 0)
                 {
-
+                    Destroy(this.gameObject);
+                    AkuAkuMask.mask.LoseMask();
                 }
                 Display.S.DecrementLives();
                 //Display.S.Restart ();
