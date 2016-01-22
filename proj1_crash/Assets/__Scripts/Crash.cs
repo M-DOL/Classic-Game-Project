@@ -27,7 +27,8 @@ public class Crash : MonoBehaviour {
 
 	public Vector3 originalPosition;
 	public Quaternion originalRotation;
-	public Vector3 checkpoint = Vector3.zero;
+    public Quaternion prespinRotation;
+    public Vector3 checkpoint = Vector3.zero;
 
     //Sound Clips
     public List<string> soundNames;
@@ -88,6 +89,7 @@ public class Crash : MonoBehaviour {
         if (spin && !spinning && Time.time - spinEnd > spinCooldown)
         {
             spin = false;
+            prespinRotation = transform.rotation;
 			spinning = true;
 			spinStartTime = Time.time;
             PlaySound("Spin");
@@ -97,6 +99,7 @@ public class Crash : MonoBehaviour {
             if(((jumping || falling) && Time.time - spinStartTime > airSpinDuration) || Time.time - spinStartTime > spinDuration)
             {
                 spinning = false;
+                transform.rotation = prespinRotation;
                 spinEnd = Time.time;
             }
 		}
@@ -171,7 +174,10 @@ public class Crash : MonoBehaviour {
 			transform.position = originalPosition;
 			transform.rotation = originalRotation;
 		}
-	}
+        Vector3 cameraPos = transform.position;
+        cameraPos.z -= CameraFollow.S.frontFollowDistance;
+        CameraFollow.S.transform.position = cameraPos;
+    }
     public void PlaySound(string soundName)
     {
         int ind = soundNames.IndexOf(soundName);

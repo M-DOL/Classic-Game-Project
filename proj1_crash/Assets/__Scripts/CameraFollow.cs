@@ -9,9 +9,13 @@ public class CameraFollow : MonoBehaviour
     public float speed = 2f;
     public float distThres = .01f;
     Vector3 newPos;
+    public static CameraFollow S;
+    void Awake()
+    {
+
+    }
     void Start()
     {
-        
         newPos = Camera.main.transform.position;
         newPos.z = Crash.S.transform.position.z - frontFollowDistance;
         Camera.main.transform.position = newPos;
@@ -24,7 +28,7 @@ public class CameraFollow : MonoBehaviour
         {
             frontFacing = true;
         }
-        else if(Crash.S.rigid.velocity.z < -.01f)
+        else if (Crash.S.rigid.velocity.z < -.01f)
         {
             frontFacing = false;
         }
