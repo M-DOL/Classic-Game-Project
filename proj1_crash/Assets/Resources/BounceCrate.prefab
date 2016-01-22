@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11406784}
   m_Layer: 11
   m_Name: BounceCrate
-  m_TagString: BounceCrate
+  m_TagString: Crate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,10 +132,6 @@ Prefab:
       propertyPath: items.Array.data[0].type
       value: 
       objectReference: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
-    - target: {fileID: 0}
-      propertyPath: m_TagString
-      value: BounceCrate
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 108628}

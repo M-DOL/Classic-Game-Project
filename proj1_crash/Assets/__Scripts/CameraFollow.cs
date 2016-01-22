@@ -1,8 +1,18 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
+public struct DestroyedElement
+{
+    public string tag;
+    public Vector3 placement;
+    public Quaternion rotation;
+}
 public class CameraFollow : MonoBehaviour
 {
+    public ArrayList crateTags = new ArrayList{ "Crate", "MultiCrate", "BounceCrate", "LifeCrate", "TriggerCrate", "MaskCrate", "RandomCrate" };
+    public List<DestroyedElement> destroyed;
     public float frontFollowDistance = 4.8f;
     public float backFollowDistance = 7.5f;
     public bool frontFacing = true;
@@ -12,7 +22,8 @@ public class CameraFollow : MonoBehaviour
     public static CameraFollow S;
     void Awake()
     {
-
+        S = this;
+        destroyed = new List<DestroyedElement>();
     }
     void Start()
     {
@@ -41,5 +52,26 @@ public class CameraFollow : MonoBehaviour
         {
             Camera.main.transform.position = newPos;
         }
+    }
+    public void RespawnItems()
+    {
+        foreach (DestroyedElement gone in destroyed)
+        {
+            Instantiate(Resources.Load(gone.tag), gone.placement, gone.rotation);
+        }
+    }
+    public void AddToRespawn(GameObject g)
+    {
+        DestroyedElement dest = new DestroyedElement();
+        dest.placement = Vector3.zero;
+        dest.placement.x = g.transform.position.x;
+        dest.placement.y = g.transform.position.y;
+        dest.placement.z = g.transform.position.z;
+        dest.rotation.w = g.transform.rotation.w;
+        dest.rotation.x = g.transform.rotation.x;
+        dest.rotation.y = g.transform.rotation.y;
+        dest.rotation.z = g.transform.rotation.z;
+        dest.tag = g.tag;
+        destroyed.Add(dest);
     }
 }

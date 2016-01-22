@@ -13,14 +13,15 @@ public class Display : MonoBehaviour {
     public float breakStart;
     public float breakDur = .5f;
     public int remainingIncrementFruits = 0;
-    public float visibleDur = 2f;
-    public float visibleStart;
-    public float hideY = 30f;
-    public float hideShowSpeed = 30f;
+    public float visibleDur = 3.5f;
+    public float visibleStart = 1f;
+    public float hideY = 60f;
+    public float hideShowSpeed = 90f;
     public Text livesText;
 	public Text fruitText;
     public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos;
-    private bool visible = true, hiding = false, showing = true;
+    private bool visible = true, hiding = false, showing = false;
+    public Vector3 visPos, hidePos;
     void Awake(){
 		S = this;
 	}
@@ -33,6 +34,11 @@ public class Display : MonoBehaviour {
         lifeDest = transform.FindChild("LivesIcon").transform.position;
         fruitTextPos = transform.FindChild("NumFruits").transform.position;
         lifeTextPos = transform.FindChild("NumLives").transform.position;
+        visPos = transform.position;
+        hidePos = Vector3.zero;
+        hidePos.x = visPos.x;
+        hidePos.y = visPos.y + hideY;
+        hidePos.z = visPos.z;
     }
 	void Update()
     {
@@ -42,13 +48,13 @@ public class Display : MonoBehaviour {
         }
         if(hiding)
         {
-
+            transform.position = Vector3.MoveTowards(transform.position, hidePos, Time.deltaTime * hideShowSpeed);
+            if(hidePos.y - transform.position.y < .01f)
+            {
+                hiding = false;
+            }
         }
-        else if(showing)
-        {
-
-        }
-        if(onBreak && Time.time - breakStart > breakDur)
+        if (onBreak && Time.time - breakStart > breakDur)
         {
             if(remainingIncrementFruits > 0)
             {
@@ -72,6 +78,7 @@ public class Display : MonoBehaviour {
 	}
 
 	public void DecrementLives(){
+        Show();
 		if (numLives != 0) {
 			--numLives;
 			livesText.text = numLives.ToString ();
@@ -105,7 +112,7 @@ public class Display : MonoBehaviour {
 	}
     public void Hide()
     {
-        if(visible)
+        if (visible)
         {
             visible = false;
             hiding = true;
@@ -113,7 +120,8 @@ public class Display : MonoBehaviour {
     }
     public void Show()
     {
-        if(!visible)
+        transform.position = visPos;
+        if (!visible)
         {
             visible = true;
             showing = true;

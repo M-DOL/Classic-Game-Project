@@ -12,7 +12,7 @@ public class WumpaFruit : MonoBehaviour
     public float knockDur = 1f;
     public float sizeCorrection = .35f;
     public float startTime;
-    public float invincibileDur = .3f;
+    public float invincibleDur = .3f;
     public float fruitFlyHeight = .5f;
     public LayerMask crateLayerMask;
     public Vector3 fruitDir;
@@ -44,24 +44,28 @@ public class WumpaFruit : MonoBehaviour
     }
     void OnTriggerEnter(Collider col)
     {
-        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) || col.gameObject.tag == "MultiCrate" || col.gameObject.tag == "Crate")
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
+        CameraFollow.S.crateTags.Contains(col.gameObject.tag))
         {
+            Display.S.Show();
             FlyToCounter();
         }
         //Prevents fruit from crates being spun away immediately
-        else if(col.gameObject.tag == "Crash" && Time.time - startTime > invincibileDur)
+        else if(col.gameObject.tag == "Crash" && Time.time - startTime > invincibleDur)
         {
             FlyAway();
         }
     }
     void OnTriggerStay(Collider col)
     {
-        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) || col.gameObject.tag == "MultiCrate" || col.gameObject.tag == "Crate")
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
+        CameraFollow.S.crateTags.Contains(col.gameObject.tag))
         {
+            Display.S.Show();
             FlyToCounter();
         }
         //Prevents fruit from crates being spun away immediately
-        else if (col.gameObject.tag == "Crash" && Time.time - startTime > invincibileDur)
+        else if (col.gameObject.tag == "Crash" && Time.time - startTime > invincibleDur)
         {
             FlyAway();
         }

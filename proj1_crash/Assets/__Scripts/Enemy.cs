@@ -34,9 +34,10 @@ public class Enemy : MonoBehaviour {
 
 	public void LaunchEnemy(){
 		launched = true;
-		launchTime = Time.time;
+        launchTime = Time.time;
 		rigid.constraints = RigidbodyConstraints.FreezeRotation;
 		rigid.velocity = Vector3.forward * launchSpeed;
-	}
+        CameraFollow.S.AddToRespawn(gameObject);
+    }
 
     }

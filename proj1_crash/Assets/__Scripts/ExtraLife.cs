@@ -9,6 +9,7 @@ public class ExtraLife : MonoBehaviour {
     public float sizeCorrection = .35f;
     void OnCollisionEnter(Collision col){
 		if(col.gameObject.tag == "Crash"){
+            Display.S.Show();
             FlyToCounter();
 		}
 	}

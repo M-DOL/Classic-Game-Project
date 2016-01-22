@@ -25,7 +25,7 @@ public class Crate : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter (Collision col) {
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "Crab" || col.gameObject.tag == "Turtle")
         {
             if (Enemy.S.launched)
             {
@@ -95,7 +95,8 @@ public class Crate : MonoBehaviour {
     {
 		Vector3 pos = transform.position;
 		Quaternion rot = Quaternion.identity;
-		Destroy (this.gameObject);
+        CameraFollow.S.AddToRespawn(gameObject);
+        Destroy (this.gameObject);
         Crash.S.PlaySound("CrateBreak");
         if(items == null || items.Count == 0)
         {

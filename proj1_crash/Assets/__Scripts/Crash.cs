@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Crash : MonoBehaviour {
 	public float speed = 10f;
@@ -167,13 +168,15 @@ public class Crash : MonoBehaviour {
 	}
 
 	public void Respawn(){
-		if (checkpoint != Vector3.zero) {
-			transform.position = checkpoint;
+        ScreenFader.S.EndScene();
+        if (checkpoint != Vector3.zero) {
+            transform.position = checkpoint;
 			transform.rotation = originalRotation;
 		} else {
-			transform.position = originalPosition;
+            transform.position = originalPosition;
 			transform.rotation = originalRotation;
 		}
+        CameraFollow.S.RespawnItems();
         Vector3 cameraPos = transform.position;
         cameraPos.z -= CameraFollow.S.frontFollowDistance;
         CameraFollow.S.transform.position = cameraPos;

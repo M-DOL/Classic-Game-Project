@@ -1,48 +1,48 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &108628
+--- !u!1 &140008
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 497580}
-  - 33: {fileID: 3324872}
-  - 65: {fileID: 6569922}
-  - 23: {fileID: 2381270}
-  - 54: {fileID: 5465240}
-  - 114: {fileID: 11406784}
+  - 4: {fileID: 488690}
+  - 33: {fileID: 3342254}
+  - 65: {fileID: 6541866}
+  - 23: {fileID: 2353116}
+  - 54: {fileID: 5444214}
+  - 114: {fileID: 11468860}
   m_Layer: 11
-  m_Name: BounceCrate
-  m_TagString: BounceCrate
+  m_Name: MultiCrate
+  m_TagString: MultiCrate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &497580
+--- !u!4 &488690
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108628}
+  m_GameObject: {fileID: 140008}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 2, y: 0.5, z: -8.27}
+  m_LocalPosition: {x: 3.256, y: 0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2381270
+--- !u!23 &2353116
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108628}
+  m_GameObject: {fileID: 140008}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: c57e642ccafb89a409b06792a6fe344e, type: 2}
+  - {fileID: 2100000, guid: 6a206f5301eafc442807c32f0c2784cf, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -58,19 +58,19 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3324872
+--- !u!33 &3342254
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108628}
+  m_GameObject: {fileID: 140008}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5465240
+--- !u!54 &5444214
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108628}
+  m_GameObject: {fileID: 140008}
   serializedVersion: 2
   m_Mass: 1000
   m_Drag: 0
@@ -80,27 +80,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
---- !u!65 &6569922
+--- !u!65 &6541866
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108628}
+  m_GameObject: {fileID: 140008}
   m_Material: {fileID: 13400000, guid: 100b68832913fb54ba6fc9ede8ca0ed3, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11406784
+--- !u!114 &11468860
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108628}
+  m_GameObject: {fileID: 140008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9d19fae3e3fa004ca5833f9da7884a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 338374f54d5df0743a9d0e216e8e038f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   items:
@@ -109,10 +109,14 @@ MonoBehaviour:
   bounceVel: 3
   itemOffset: 0.5
   invincible: 0
-  rigid: {fileID: 5465240}
+  rigid: {fileID: 0}
   crateLayerMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
+  fruitPrefab: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
+  startTime: 0
+  fruitDuration: 7
+  fruitsRemaining: 9
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -125,6 +129,14 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: MultiCrate
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fruitPrefab
+      value: 
+      objectReference: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
+    - target: {fileID: 0}
       propertyPath: items.Array.data[0].numObjects
       value: 1
       objectReference: {fileID: 0}
@@ -133,10 +145,10 @@ Prefab:
       value: 
       objectReference: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
     - target: {fileID: 0}
-      propertyPath: m_TagString
-      value: BounceCrate
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 108628}
+  m_RootGameObject: {fileID: 140008}
   m_IsPrefabParent: 1

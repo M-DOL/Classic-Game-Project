@@ -16,7 +16,7 @@ public class CrabEnemy : Enemy {
 	}
 
 	void OnCollisionEnter(Collision col){
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "Crab" || col.gameObject.tag == "Turtle")
         {
             if (launched)
             {
@@ -35,13 +35,15 @@ public class CrabEnemy : Enemy {
 			bool killEnemy = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .1f;
 
 			if(Crash.S.falling && killEnemy){
-				Destroy (this.gameObject);
+                CameraFollow.S.AddToRespawn(gameObject);
+                Destroy (this.gameObject);
 				Crash.S.Bounce (3f);
 			}
 
 			if (!killEnemy) {
                 if (Crash.S.numMasks > 0)
                 {
+                    CameraFollow.S.AddToRespawn(gameObject);
                     Destroy(this.gameObject);
                     AkuAkuMask.mask.LoseMask();
                 }

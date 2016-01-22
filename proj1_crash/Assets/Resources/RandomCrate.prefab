@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11419222}
   m_Layer: 11
   m_Name: RandomCrate
-  m_TagString: RandomCrate
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225,10 +225,6 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_TagString
-      value: RandomCrate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

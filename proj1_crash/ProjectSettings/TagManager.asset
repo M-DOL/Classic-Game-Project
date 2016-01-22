@@ -10,6 +10,12 @@ TagManager:
   - Fruit
   - Crate
   - Enemy
+  - Crab
+  - Turtle
+  - BounceCrate
+  - MaskCrate
+  - RandomCrate
+  - LifeCrate
   layers:
   - Default
   - TransparentFX
