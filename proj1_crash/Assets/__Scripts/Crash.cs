@@ -18,6 +18,9 @@ public class Crash : MonoBehaviour {
     public float jumpDur = .5f;
     public bool jumpStart, jumpCont;
 
+	public float invincibleDur = 20f;
+	public float invincibleStart = 1f;
+	public bool invincible = false;
     public bool grounded = true;
 	public bool jumping = false;
 	public bool falling = false;
@@ -181,6 +184,7 @@ public class Crash : MonoBehaviour {
         cameraPos.z -= CameraFollow.S.frontFollowDistance;
         CameraFollow.S.transform.position = cameraPos;
     }
+
     public void PlaySound(string soundName)
     {
         int ind = soundNames.IndexOf(soundName);
@@ -189,4 +193,11 @@ public class Crash : MonoBehaviour {
             crashSound.PlayOneShot(soundClips[ind]);
         }
     }
+
+	public IEnumerator Invincible(){
+		invincible = true;
+		yield return new WaitForSeconds (20);
+		invincible = false;
+		AkuAkuMask.mask.LoseMask ();
+	}
 }

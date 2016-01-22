@@ -18,7 +18,7 @@ public class MultiCrate : Crate
     {
         if (col.gameObject.tag == "Crash")
         {
-            if (Crash.S.spinning)
+			if (Crash.S.invincible || Crash.S.spinning)
             {
                 items = null;
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);

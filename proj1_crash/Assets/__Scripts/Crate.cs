@@ -38,8 +38,8 @@ public class Crate : MonoBehaviour {
             return;
         }
 		if(col.gameObject.tag == "Crash"){
-            if (Crash.S.spinning && 
-                boxCol.bounds.max.y < (Crash.S.collider.bounds.center.y + .01f))
+			if (Crash.S.invincible || (Crash.S.spinning && 
+				boxCol.bounds.max.y < (Crash.S.collider.bounds.center.y + .01f)))
             {
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
                 BreakBox(crateAbove);

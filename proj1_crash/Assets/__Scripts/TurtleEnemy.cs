@@ -80,7 +80,7 @@ public class TurtleEnemy : Enemy
         }
         if (col.gameObject.tag == "Crash")
         {
-            if (Crash.S.spinning)
+			if (Crash.S.spinning || Crash.S.invincible)
             {
                 LaunchEnemy();
                 return;

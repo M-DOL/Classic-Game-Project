@@ -27,7 +27,7 @@ public class CrabEnemy : Enemy {
 			speed *= -1;
 		}
 		else if(col.gameObject.tag == "Crash"){
-			if(Crash.S.spinning){
+			if(Crash.S.spinning || Crash.S.invincible){
 				LaunchEnemy ();
 				return;
 			}
