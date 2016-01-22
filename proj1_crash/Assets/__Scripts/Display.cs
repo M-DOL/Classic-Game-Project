@@ -19,9 +19,13 @@ public class Display : MonoBehaviour {
     public float hideShowSpeed = 90f;
     public Text livesText;
 	public Text fruitText;
-    public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos;
+    public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos, pauseTextPos;
     private bool visible = true, hiding = false, showing = false;
     public Vector3 visPos, hidePos;
+
+	float start, select;
+	public Text pauseText;
+
     void Awake(){
 		S = this;
 	}
@@ -30,10 +34,13 @@ public class Display : MonoBehaviour {
 	void Start () {
 		livesText = transform.FindChild ("NumLives").GetComponent<Text> ();
         fruitText = transform.FindChild ("NumFruits").GetComponent<Text> ();
+		pauseText = transform.FindChild ("Pause").GetComponent<Text> ();
+		pauseText.gameObject.SetActive (false);
         fruitDest = transform.FindChild("FruitIcon").transform.position;
         lifeDest = transform.FindChild("LivesIcon").transform.position;
         fruitTextPos = transform.FindChild("NumFruits").transform.position;
         lifeTextPos = transform.FindChild("NumLives").transform.position;
+		pauseTextPos = transform.FindChild ("Pause").transform.position;
         visPos = transform.position;
         hidePos = Vector3.zero;
         hidePos.x = visPos.x;
@@ -42,6 +49,13 @@ public class Display : MonoBehaviour {
     }
 	void Update()
     {
+		start = Input.GetAxis("Submit");
+		select = Input.GetAxis("Cancel");
+
+		if (start > 0) {
+			Pause ();	
+		}
+
         if(visible && Time.time - visibleStart > visibleDur)
         {
             Hide();
@@ -68,6 +82,7 @@ public class Display : MonoBehaviour {
                 onBreak = false;
             }
         }
+		pauseText.transform.position = pauseTextPos;
     }
 	public void IncrementLives(){
 		if(numLives != maxLives){
@@ -131,5 +146,15 @@ public class Display : MonoBehaviour {
 	public void Restart(){
 		// Reload _Scene_0 to restart the game
 		SceneManager.LoadScene("_Scene0");
+	}
+	public void Pause(){
+		start = Input.GetAxisRaw("Submit");
+		select = Input.GetAxisRaw("Cancel");
+		Time.timeScale = 0;
+		pauseText.gameObject.SetActive (true);
+		if (select > 0) {
+			Time.timeScale = 1;
+			pauseText.gameObject.SetActive (false);
+		}
 	}
 }
