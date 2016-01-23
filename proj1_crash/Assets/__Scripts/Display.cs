@@ -20,7 +20,7 @@ public class Display : MonoBehaviour {
     public Text livesText;
 	public Text fruitText;
     public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos, pauseTextPos;
-    private bool visible = true, hiding = false, showing = false;
+    private bool visible = true, hiding = false;
     public Vector3 visPos, hidePos;
 
 	float start, select;
@@ -140,7 +140,6 @@ public class Display : MonoBehaviour {
         if (!visible)
         {
             visible = true;
-            showing = true;
         }
         visibleStart = Time.time;
     }

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class Crash : MonoBehaviour {
-	public float speed = 10f;
+	public float speed = 6f;
 
     public float spinDuration = .4f;
     public float airSpinDuration = .2f;
-    public float spinSpeed;
+    public float spinSpeed = 5000f;
     public float spinEnd;
-    public float spinCooldown = .3f;
+    public float spinCooldown = .7f;
     public bool spin;
 
     public float jumpVel = 5f;
@@ -35,8 +35,6 @@ public class Crash : MonoBehaviour {
     public Vector3 checkpoint = Vector3.zero;
 
     //Sound Clips
-    public List<string> soundNames;
-    public List<AudioClip> soundClips;
     AudioSource crashSound;
 
     public Rigidbody rigid;
@@ -77,6 +75,7 @@ public class Crash : MonoBehaviour {
         jumpStart = Input.GetKeyDown(KeyCode.A);
         if (!jumping && jumpStart)
         {
+            PlaySound("Jump");
             jumping = true;
             jumpCont = true;
             jumpStartTime = Time.time;
@@ -115,7 +114,7 @@ public class Crash : MonoBehaviour {
 
 		if(spinning)
         {
-			transform.Rotate (Vector3.up, spinSpeed * Time.fixedTime);
+			transform.Rotate (Vector3.up, spinSpeed * Time.fixedDeltaTime);
 		}
 		else if(GetArrowInput() && vel != Vector3.zero)
         {
@@ -187,14 +186,16 @@ public class Crash : MonoBehaviour {
 
     public void PlaySound(string soundName)
     {
-        int ind = soundNames.IndexOf(soundName);
-        if(ind != -1)
-        {
-            crashSound.PlayOneShot(soundClips[ind]);
-        }
+        crashSound.PlayOneShot(Resources.Load("Sounds/" + soundName) as AudioClip);
     }
-
+    public void KnockBack()
+    {
+        Vector3 knockVel = rigid.velocity;
+        knockVel.y = jumpVel;
+        rigid.velocity = knockVel; 
+    }
 	public IEnumerator Invincible(){
+        Crash.S.PlaySound("AkuAkuInvincible");
 		invincible = true;
 		yield return new WaitForSeconds (20);
 		invincible = false;

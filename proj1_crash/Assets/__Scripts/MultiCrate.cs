@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class MultiCrate : Crate
 {
     public GameObject fruitPrefab;
@@ -20,7 +20,17 @@ public class MultiCrate : Crate
         {
 			if (Crash.S.invincible || Crash.S.spinning)
             {
-                items = null;
+                if (Crash.S.invincible)
+                {
+                    for (int i = 0; i < fruitsRemaining; ++i)
+                    {
+                        items.Add(items[0]);
+                    }
+                }
+                else
+                {
+                    items = null;
+                }
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
                 BreakBox(crateAbove);
                 return;

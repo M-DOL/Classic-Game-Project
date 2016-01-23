@@ -43,6 +43,7 @@ public class CrabEnemy : Enemy {
 			if (!killEnemy) {
                 if (Crash.S.numMasks > 0)
                 {
+                    Crash.S.KnockBack();
                     CameraFollow.S.AddToRespawn(gameObject);
                     Destroy(this.gameObject);
                     AkuAkuMask.mask.LoseMask();

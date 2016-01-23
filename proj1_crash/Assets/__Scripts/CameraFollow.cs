@@ -56,9 +56,14 @@ public class CameraFollow : MonoBehaviour
     }
     public void RespawnItems()
     {
+        GameObject toInst = null;
         foreach (DestroyedElement gone in destroyed)
         {
-            Instantiate(Resources.Load(gone.tag), gone.placement, gone.rotation);
+            toInst = Resources.Load("Prefabs/" + gone.tag) as GameObject;
+            if(toInst != null)
+            {
+                Instantiate(toInst, gone.placement, gone.rotation);
+            }
         }
         destroyed.Clear();
     }
