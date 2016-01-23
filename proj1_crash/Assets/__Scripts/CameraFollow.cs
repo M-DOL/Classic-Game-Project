@@ -59,6 +59,7 @@ public class CameraFollow : MonoBehaviour
         {
             Instantiate(Resources.Load(gone.tag), gone.placement, gone.rotation);
         }
+        destroyed.Clear();
     }
     public void AddToRespawn(GameObject g)
     {

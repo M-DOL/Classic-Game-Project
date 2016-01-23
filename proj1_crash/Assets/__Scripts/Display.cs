@@ -53,7 +53,8 @@ public class Display : MonoBehaviour {
 		select = Input.GetAxis("Cancel");
 
 		if (start > 0) {
-			Pause ();	
+            ScreenFader.S.EndScene();
+			Pause();	
 		}
 
         if(visible && Time.time - visibleStart > visibleDur)
@@ -155,6 +156,7 @@ public class Display : MonoBehaviour {
 		if (select > 0) {
 			Time.timeScale = 1;
 			pauseText.gameObject.SetActive (false);
+            Show();
 		}
 	}
 }
