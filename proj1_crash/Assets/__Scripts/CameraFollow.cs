@@ -34,6 +34,7 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         newPos = Camera.main.transform.position;
+        newPos.y = Crash.S.transform.position.y + 3f;
         newPos.z = Crash.S.rigid.velocity.z * Time.deltaTime;
         if (Crash.S.rigid.velocity.z > .01f)
         {
