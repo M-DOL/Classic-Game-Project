@@ -43,7 +43,7 @@ public class Crash : MonoBehaviour {
 	float distToGround;
 	float groundedOffset;
 	int groundLayerMask;
-	float spinStartTime;
+	public float spinStartTime;
 	public static Crash S;
 
 	void Awake(){

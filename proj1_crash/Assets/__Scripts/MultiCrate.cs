@@ -18,19 +18,16 @@ public class MultiCrate : Crate
     {
         if (col.gameObject.tag == "Crash")
         {
-			if (Crash.S.invincible || Crash.S.spinning)
+            if(Crash.S.invincible)
             {
-                if (Crash.S.invincible)
-                {
-                    for (int i = 0; i < fruitsRemaining; ++i)
-                    {
-                        items.Add(items[0]);
-                    }
-                }
-                else
-                {
-                    items = null;
-                }
+                items = new List<ObjectSet>();
+                items.Add(new ObjectSet(fruitPrefab, fruitsRemaining + 1));
+                BreakBox(true);
+                return;
+            }
+			if (Crash.S.spinning)
+            {
+                items = null;
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
                 BreakBox(crateAbove);
                 return;

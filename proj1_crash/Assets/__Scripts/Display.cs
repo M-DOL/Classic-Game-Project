@@ -22,7 +22,7 @@ public class Display : MonoBehaviour {
     public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos, pauseTextPos;
     private bool visible = true, hiding = false;
     public Vector3 visPos, hidePos;
-
+    public float lastLaunch = -5f;
 	float start, select;
 	public Text pauseText;
 
@@ -117,6 +117,7 @@ public class Display : MonoBehaviour {
         }
     }
 	public void IncrementFruit(){
+        Show();
         if (numFruit != 99) {
 			++numFruit;
 			fruitText.text = numFruit.ToString ();

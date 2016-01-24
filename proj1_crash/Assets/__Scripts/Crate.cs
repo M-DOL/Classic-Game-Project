@@ -6,6 +6,11 @@ public struct ObjectSet
 {
     public int numObjects;
     public GameObject type;
+    public ObjectSet(GameObject kind, int num)
+    {
+        numObjects = num;
+        type = kind;
+    }
 }
 public class Crate : MonoBehaviour {
 	public List<ObjectSet> items;
@@ -29,7 +34,7 @@ public class Crate : MonoBehaviour {
         {
             if (Enemy.S.launched)
             {
-                BreakBox(true);
+                BreakBox(false);
             }
         }
             if (rigid.velocity.y < 0f)
@@ -38,7 +43,11 @@ public class Crate : MonoBehaviour {
             return;
         }
 		if(col.gameObject.tag == "Crash"){
-			if (Crash.S.invincible || (Crash.S.spinning && 
+            if (Crash.S.invincible)
+            {
+                BreakBox(true);
+            }
+            if ((Crash.S.spinning && 
 				boxCol.bounds.max.y < (Crash.S.collider.bounds.center.y + .01f)))
             {
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);

@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
 
-	public float speed = 2f;
-	public bool launched;
-	public float launchSpeed;
-	public float launchTime;
-	public float launchDuration;
+    public float speed = 2f;
+    public bool launched;
+    public float launchSpeed;
+    public float launchTime;
+    public float launchDuration;
 
-	protected BoxCollider boxCol;
-	protected Rigidbody rigid;
+    protected BoxCollider boxCol;
+    protected Rigidbody rigid;
 
     public static Enemy S;
     void Awake()
@@ -18,26 +19,30 @@ public class Enemy : MonoBehaviour {
         S = this;
     }
     // Use this for initialization
-    void Start () {
-		rigid = gameObject.GetComponent<Rigidbody> ();
-		boxCol = gameObject.GetComponent<BoxCollider> ();
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-		Move ();
-	}
+    void Start()
+    {
+        rigid = gameObject.GetComponent<Rigidbody>();
+        boxCol = gameObject.GetComponent<BoxCollider>();
+    }
 
-	public virtual void Move(){
-		
-	}
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        Move();
+    }
 
-	public void LaunchEnemy(){
-		launched = true;
+    public virtual void Move()
+    {
+
+    }
+
+    public void LaunchEnemy()
+    {
+        launched = true;
         launchTime = Time.time;
-		rigid.constraints = RigidbodyConstraints.FreezeRotation;
-		rigid.velocity = Vector3.forward * launchSpeed;
+        rigid.constraints = RigidbodyConstraints.FreezeRotation;
+        rigid.velocity = Vector3.forward * launchSpeed;
         CameraFollow.S.AddToRespawn(gameObject);
     }
 
-    }
+}

@@ -10,9 +10,10 @@ public class WumpaFruit : MonoBehaviour
     public bool flying = false, knocked = false;
     public float knockStart;
     public float knockDur = 1f;
+    public float fruitDelay = .1f;
     public float sizeCorrection = .35f;
     public float startTime;
-    public float invincibleDur = .3f;
+    public float invincibleDur = .5f;
     public float fruitFlyHeight = .5f;
     public LayerMask crateLayerMask;
     public Vector3 fruitDir;
@@ -47,7 +48,6 @@ public class WumpaFruit : MonoBehaviour
         if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
         CameraFollow.S.crateTags.Contains(col.gameObject.tag))
         {
-            Display.S.Show();
             FlyToCounter();
         }
         //Prevents fruit from crates being spun away immediately
@@ -61,7 +61,6 @@ public class WumpaFruit : MonoBehaviour
         if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
         CameraFollow.S.crateTags.Contains(col.gameObject.tag))
         {
-            Display.S.Show();
             FlyToCounter();
         }
         //Prevents fruit from crates being spun away immediately
@@ -72,6 +71,8 @@ public class WumpaFruit : MonoBehaviour
     }
     public void FlyToCounter()
     {
+        Display.S.Show();
+        Display.S.lastLaunch = Time.time;
         flying = true;
         fruitDir = Display.S.fruitDest - transform.position;
         fruitDir = Vector3.Normalize(fruitDir);

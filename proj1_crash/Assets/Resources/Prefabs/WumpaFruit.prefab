@@ -253,9 +253,10 @@ MonoBehaviour:
   knocked: 0
   knockStart: 0
   knockDur: 1
+  fruitDelay: 0.1
   sizeCorrection: 0.35
   startTime: 0
-  invincibileDur: 0.5
+  invincibleDur: 0.5
   fruitFlyHeight: 0.5
   crateLayerMask:
     serializedVersion: 2
