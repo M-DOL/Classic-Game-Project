@@ -5,6 +5,11 @@ public class BounceCrate : Crate {
 
 	void OnCollisionEnter (Collision col)
     {
+        if (Crash.S.invincible)
+        {
+            BreakBox(true);
+            return;
+        }
         if (rigid.velocity.y < 0f)
         {
             invincible = true;
@@ -30,6 +35,11 @@ public class BounceCrate : Crate {
 
     void OnCollisionStay(Collision col)
     {
+        if (Crash.S.invincible)
+        {
+            BreakBox(true);
+            return;
+        }
         if (rigid.velocity.y < 0f)
         {
             invincible = true;

@@ -13,7 +13,7 @@ public class Crash : MonoBehaviour {
     public float spinCooldown = .7f;
     public bool spin;
 
-    public float jumpVel = 5f;
+    public float jumpVel = 3.5f;
     public float jumpStartTime;
     public float jumpDur = .5f;
     public bool jumpStart, jumpCont;

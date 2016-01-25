@@ -16,6 +16,7 @@ TagManager:
   - MaskCrate
   - RandomCrate
   - LifeCrate
+  - Ground
   layers:
   - Default
   - TransparentFX

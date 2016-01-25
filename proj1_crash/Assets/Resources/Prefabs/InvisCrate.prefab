@@ -74,14 +74,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a839a09e0460d242ae8b2da835b99e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cratePrefab: {fileID: 0}
+  cratePrefab: {fileID: 131204, guid: c9192a7df70ace8489bd88d0a049d52e, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: cratePrefab
+      value: 
+      objectReference: {fileID: 131204, guid: c9192a7df70ace8489bd88d0a049d52e, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 111466}

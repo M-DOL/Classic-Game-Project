@@ -112,6 +112,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   triggered: 0
+  metalMat: {fileID: 2100000, guid: fcbd14a4af6eab94aa0f10909e67710a, type: 2}
+  invisCrates: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

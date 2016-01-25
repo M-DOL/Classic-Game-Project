@@ -17,9 +17,12 @@ public class WumpaFruit : MonoBehaviour
     public float fruitFlyHeight = .5f;
     public LayerMask crateLayerMask;
     public Vector3 fruitDir;
-    void Start()
+    void Awake()
     {
         rigid = gameObject.GetComponent<Rigidbody>();
+    }
+    void Start()
+    {
         startTime = Time.time;
         crateLayerMask = LayerMask.GetMask("Crate");
     }
@@ -36,7 +39,7 @@ public class WumpaFruit : MonoBehaviour
         else
         {
             transform.localScale += sizeCorrection * Vector3.one;
-            if(transform.position.z > Display.S.fruitDest.z)
+            if (transform.position.z > Display.S.fruitDest.z)
             {
                 Display.S.OrderIncrementFruit();
                 Destroy(gameObject);
@@ -45,7 +48,16 @@ public class WumpaFruit : MonoBehaviour
     }
     void OnTriggerEnter(Collider col)
     {
-        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
+        if(flying)
+        {
+            return;
+        }
+        if(col.gameObject.tag == "Ground")
+        {
+            rigid.velocity = Vector3.zero;
+            rigid.useGravity = false;
+        }
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning && Time.time - startTime > invincibleDur) ||
         CameraFollow.S.crateTags.Contains(col.gameObject.tag))
         {
             FlyToCounter();
@@ -58,7 +70,11 @@ public class WumpaFruit : MonoBehaviour
     }
     void OnTriggerStay(Collider col)
     {
-        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
+        if (flying)
+        {
+            return;
+        }
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning && Time.time - startTime > invincibleDur) ||
         CameraFollow.S.crateTags.Contains(col.gameObject.tag))
         {
             FlyToCounter();
@@ -71,13 +87,12 @@ public class WumpaFruit : MonoBehaviour
     }
     public void FlyToCounter()
     {
+        Crash.S.PlaySound("WumpaCollect");
         Display.S.Show();
-        Display.S.lastLaunch = Time.time;
         flying = true;
         fruitDir = Display.S.fruitDest - transform.position;
         fruitDir = Vector3.Normalize(fruitDir);
         rigid.velocity = fruitDir * countSpeed;
-        Crash.S.PlaySound("WumpaCollect");
     }
     void FlyAway()
     {

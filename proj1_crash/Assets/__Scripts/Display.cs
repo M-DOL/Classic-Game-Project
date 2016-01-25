@@ -3,12 +3,13 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Display : MonoBehaviour {
+public class Display : MonoBehaviour
+{
 
-	public static Display S;
-	public int maxLives;
-	public int numFruit = 0;
-	public int numLives = 3;
+    public static Display S;
+    public int maxLives;
+    public int numFruit = 0;
+    public int numLives = 3;
     bool onBreak = false;
     public float breakStart;
     public float breakDur = .5f;
@@ -18,60 +19,47 @@ public class Display : MonoBehaviour {
     public float hideY = 60f;
     public float hideShowSpeed = 90f;
     public Text livesText;
-	public Text fruitText;
+    public Text fruitText;
     public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos, pauseTextPos;
     private bool visible = true, hiding = false;
     public Vector3 visPos, hidePos;
-    public float lastLaunch = -5f;
-	float start, select;
-	public Text pauseText;
-
-    void Awake(){
-		S = this;
-	}
-
-	// Use this for initialization
-	void Start () {
-		livesText = transform.FindChild ("NumLives").GetComponent<Text> ();
-        fruitText = transform.FindChild ("NumFruits").GetComponent<Text> ();
-		pauseText = transform.FindChild ("Pause").GetComponent<Text> ();
-		pauseText.gameObject.SetActive (false);
-        fruitDest = transform.FindChild("FruitIcon").transform.position;
-        lifeDest = transform.FindChild("LivesIcon").transform.position;
-        fruitTextPos = transform.FindChild("NumFruits").transform.position;
-        lifeTextPos = transform.FindChild("NumLives").transform.position;
-		pauseTextPos = transform.FindChild ("Pause").transform.position;
-        visPos = transform.position;
-        hidePos = Vector3.zero;
-        hidePos.x = visPos.x;
-        hidePos.y = visPos.y + hideY;
-        hidePos.z = visPos.z;
-    }
-	void Update()
+    float start, select;
+    public Text pauseText;
+    Transform fruits, lives;
+    void Awake()
     {
-		start = Input.GetAxis("Submit");
-		select = Input.GetAxis("Cancel");
+        S = this;
+    }
 
-		if (start > 0) {
+    // Use this for initialization
+    void Start()
+    {
+        fruits = transform.FindChild("FruitIcon");
+        lives = transform.FindChild("LivesIcon");
+        livesText = transform.FindChild("NumLives").GetComponent<Text>();
+        fruitText = transform.FindChild("NumFruits").GetComponent<Text>();
+        pauseText = transform.FindChild("Pause").GetComponent<Text>();
+        pauseTextPos = transform.FindChild("Pause").transform.position;
+        pauseText.gameObject.SetActive(false);
+    }
+    void Update()
+    {
+        start = Input.GetAxis("Submit");
+        select = Input.GetAxis("Cancel");
+
+        if (start > 0)
+        {
             ScreenFader.S.EndScene();
-			Pause();	
-		}
+            Pause();
+        }
 
-        if(visible && Time.time - visibleStart > visibleDur)
+        if (visible && Time.time - visibleStart > visibleDur)
         {
             Hide();
         }
-        if(hiding)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, hidePos, Time.deltaTime * hideShowSpeed);
-            if(hidePos.y - transform.position.y < .01f)
-            {
-                hiding = false;
-            }
-        }
         if (onBreak && Time.time - breakStart > breakDur)
         {
-            if(remainingIncrementFruits > 0)
+            if (remainingIncrementFruits > 0)
             {
                 --remainingIncrementFruits;
                 IncrementFruit();
@@ -83,29 +71,48 @@ public class Display : MonoBehaviour {
                 onBreak = false;
             }
         }
-		pauseText.transform.position = pauseTextPos;
+        pauseText.transform.position = pauseTextPos;
     }
-	public void IncrementLives(){
-		if(numLives != maxLives){
-			++numLives;
-			livesText.text = numLives.ToString();
+    void FixedUpdate()
+    {
+        fruitDest = fruits.position;
+        lifeDest = lives.position;
+        if (hiding)
+        {
+            transform.position = Vector3.MoveTowards(visPos, hidePos, Time.deltaTime * hideShowSpeed);
+            if (hidePos.y - transform.position.y < .01f)
+            {
+                hiding = false;
+            }
+        }
+    }
+    public void IncrementLives()
+    {
+        if (numLives != maxLives)
+        {
+            ++numLives;
+            livesText.text = numLives.ToString();
             Crash.S.PlaySound("ExtraLife");
-		}
-	}
+        }
+    }
 
-	public void DecrementLives(){
+    public void DecrementLives()
+    {
         Show();
-		if (numLives != 0) {
-			--numLives;
-			livesText.text = numLives.ToString ();
-		} else {
+        if (numLives != 0)
+        {
+            --numLives;
+            livesText.text = numLives.ToString();
+        }
+        else
+        {
             // Game Over
             SceneManager.LoadScene("_Scene_GameOver");
-		}
-	}
+        }
+    }
     public void OrderIncrementFruit()
     {
-        if(!onBreak)
+        if (!onBreak)
         {
             onBreak = true;
             breakStart = Time.time;
@@ -116,17 +123,21 @@ public class Display : MonoBehaviour {
             ++remainingIncrementFruits;
         }
     }
-	public void IncrementFruit(){
+    public void IncrementFruit()
+    {
         Show();
-        if (numFruit != 99) {
-			++numFruit;
-			fruitText.text = numFruit.ToString ();
-		} else {
-			numFruit = 0;
-			fruitText.text = "0";
-			IncrementLives();
-		}
-	}
+        if (numFruit != 99)
+        {
+            ++numFruit;
+            fruitText.text = numFruit.ToString();
+        }
+        else
+        {
+            numFruit = 0;
+            fruitText.text = "0";
+            IncrementLives();
+        }
+    }
     public void Hide()
     {
         if (visible)
@@ -134,29 +145,34 @@ public class Display : MonoBehaviour {
             visible = false;
             hiding = true;
         }
+        visPos = transform.position;
+        hidePos = new Vector3(visPos.x, visPos.y + hideY, visPos.z);
     }
     public void Show()
     {
-        transform.position = visPos;
+        hiding = false;
         if (!visible)
         {
             visible = true;
         }
         visibleStart = Time.time;
     }
-	public void Restart(){
-		// Reload _Scene_0 to restart the game
-		SceneManager.LoadScene("_Scene0");
-	}
-	public void Pause(){
-		start = Input.GetAxisRaw("Submit");
-		select = Input.GetAxisRaw("Cancel");
-		Time.timeScale = 0;
-		pauseText.gameObject.SetActive (true);
-		if (select > 0) {
-			Time.timeScale = 1;
-			pauseText.gameObject.SetActive (false);
+    public void Restart()
+    {
+        // Reload _Scene_0 to restart the game
+        SceneManager.LoadScene("_Scene0");
+    }
+    public void Pause()
+    {
+        start = Input.GetAxisRaw("Submit");
+        select = Input.GetAxisRaw("Cancel");
+        Time.timeScale = 0;
+        pauseText.gameObject.SetActive(true);
+        if (select > 0)
+        {
+            Time.timeScale = 1;
+            pauseText.gameObject.SetActive(false);
             Show();
-		}
-	}
+        }
+    }
 }

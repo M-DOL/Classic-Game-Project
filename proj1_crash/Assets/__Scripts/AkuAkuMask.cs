@@ -30,8 +30,11 @@ public class AkuAkuMask : MonoBehaviour {
 			if (Crash.S.numMasks == 3) {
 				Crash.S.StartCoroutine("Invincible");
 			}
+            else
+            {
+                Crash.S.PlaySound("AkuAkuPickup");
+            }
             follow = true;
-            Crash.S.PlaySound("AkuAkuPickup");
         }
 	}
 

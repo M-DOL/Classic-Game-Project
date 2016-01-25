@@ -71,6 +71,13 @@ public class MultiCrate : Crate
     }
     void OnCollisionStay(Collision col)
     {
+        if (col.gameObject.tag == "Crash" && Crash.S.invincible)
+        {
+            items = new List<ObjectSet>();
+            items.Add(new ObjectSet(fruitPrefab, fruitsRemaining + 1));
+            BreakBox(true);
+            return;
+        }
         if (col.gameObject.tag == "Crash" && Crash.S.spinning)
         {
             items = null;

@@ -8,6 +8,6 @@ public class InvisCrate : MonoBehaviour
     {
         Destroy(gameObject);
         GameObject newObj = Instantiate(cratePrefab, transform.position, transform.rotation) as GameObject;
-        newObj.GetComponent<RigidBody>().useGravity = false;
+        newObj.GetComponent<Rigidbody>().useGravity = false;
     }
 }
