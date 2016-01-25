@@ -21,8 +21,8 @@ public class Display : MonoBehaviour
     public Text livesText;
     public Text fruitText;
     public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos, pauseTextPos;
-    private bool visible = true, hiding = false;
-    public Vector3 visPos, hidePos;
+    public bool visible = true, hiding = false;
+    public Vector3 cameraToCanvas, visPos, hidePos;
     float start, select;
     public Text pauseText;
     Transform fruits, lives;
@@ -41,6 +41,7 @@ public class Display : MonoBehaviour
         pauseText = transform.FindChild("Pause").GetComponent<Text>();
         pauseTextPos = transform.FindChild("Pause").transform.position;
         pauseText.gameObject.SetActive(false);
+        cameraToCanvas = Camera.main.transform.position - transform.position;
     }
     void Update()
     {
@@ -71,7 +72,6 @@ public class Display : MonoBehaviour
                 onBreak = false;
             }
         }
-        pauseText.transform.position = pauseTextPos;
     }
     void FixedUpdate()
     {
@@ -79,12 +79,17 @@ public class Display : MonoBehaviour
         lifeDest = lives.position;
         if (hiding)
         {
-            transform.position = Vector3.MoveTowards(visPos, hidePos, Time.deltaTime * hideShowSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, hidePos, Time.deltaTime * hideShowSpeed);
             if (hidePos.y - transform.position.y < .01f)
             {
                 hiding = false;
             }
         }
+        else
+        {
+            transform.position = Camera.main.transform.position - cameraToCanvas;
+        }
+        pauseText.transform.position = pauseTextPos;
     }
     public void IncrementLives()
     {

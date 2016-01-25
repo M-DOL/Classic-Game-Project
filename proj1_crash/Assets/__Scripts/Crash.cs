@@ -121,7 +121,7 @@ public class Crash : MonoBehaviour {
 			transform.rotation = Quaternion.LookRotation(vel);
 		}
         //-.01f because of floating number calculations.
-		falling = rigid.velocity.y < -.01f;
+		falling = rigid.velocity.y < 0f;
 		grounded = (grounded && !jumping) || OnGround ();
 		if (jumpCont)
         {

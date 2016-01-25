@@ -62,7 +62,7 @@ public class Crate : MonoBehaviour
                 return;
             }
 
-            bool landed = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .01f;
+            bool landed = Crash.S.collider.bounds.center.y > boxCol.bounds.max.y;
             if (Crash.S.falling && landed)
             {
                 if (Crash.S.jumping)
@@ -101,7 +101,7 @@ public class Crate : MonoBehaviour
                 return;
             }
 
-            bool landed = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .01f;
+            bool landed = Crash.S.collider.bounds.center.y > boxCol.bounds.max.y;
             if (Crash.S.falling && landed)
             {
                 if (Crash.S.jumping)
