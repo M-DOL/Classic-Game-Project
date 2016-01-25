@@ -62,10 +62,10 @@ public class Crate : MonoBehaviour
                 return;
             }
 
-            bool landed = Crash.S.collider.bounds.center.y > boxCol.bounds.max.y;
+            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
             if (Crash.S.falling && landed)
             {
-                if (Crash.S.jumping)
+                if (Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
                 {
                     //The box cannot be crushed if Crash is jumping on it
                     BreakBox(false);
@@ -101,10 +101,10 @@ public class Crate : MonoBehaviour
                 return;
             }
 
-            bool landed = Crash.S.collider.bounds.center.y > boxCol.bounds.max.y;
+            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
             if (Crash.S.falling && landed)
             {
-                if (Crash.S.jumping)
+                if (Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
                 {
                     //The box cannot be crushed if Crash is jumping on it
                     BreakBox(false);

@@ -42,7 +42,12 @@ public class Crash : MonoBehaviour {
 	Vector3 vel;
 	float distToGround;
 	float groundedOffset;
-	int groundLayerMask;
+	int groundLayerMask, crateLayerMask;
+    RaycastHit[] hits = new RaycastHit[5]; 
+    Dictionary<Collider, int> colliderMap = new Dictionary<Collider, int>();
+    public Collider toBreak;
+    Vector3 origin;
+    private float[] offsets;
 	public float spinStartTime;
 	public static Crash S;
 
@@ -62,6 +67,7 @@ public class Crash : MonoBehaviour {
 		groundedOffset = collider.size.x / 2f;
 
 		groundLayerMask = LayerMask.GetMask ("Ground");
+        crateLayerMask = LayerMask.GetMask("Crate");
         crashSound = GetComponent<AudioSource>();
 	}
 
@@ -120,8 +126,7 @@ public class Crash : MonoBehaviour {
         {
 			transform.rotation = Quaternion.LookRotation(vel);
 		}
-        //-.01f because of floating number calculations.
-		falling = rigid.velocity.y < 0f;
+		falling = rigid.velocity.y < -.01f;
 		grounded = (grounded && !jumping) || OnGround ();
 		if (jumpCont)
         {
@@ -136,7 +141,44 @@ public class Crash : MonoBehaviour {
         }
 		// Apply our new velocity
 		rigid.velocity = vel;
-	}
+        if(jumping && falling)
+        {
+            origin = Crash.S.transform.position;
+            origin.y = collider.bounds.min.y;
+            Physics.Raycast(origin, Vector3.down, out hits[0], .1f, crateLayerMask);
+            origin.x = 0;
+            Physics.Raycast(origin + (collider.bounds.min.x * Vector3.right), Vector3.down, out hits[1], .1f, crateLayerMask);
+            origin.x = 0;
+            Physics.Raycast(origin + (collider.bounds.max.x * Vector3.right), Vector3.down, out hits[2], .1f, crateLayerMask);
+            origin.z = 0;
+            Physics.Raycast(origin + (collider.bounds.min.z * Vector3.forward), Vector3.down, out hits[3], .1f, crateLayerMask);
+            origin.z = 0;
+            Physics.Raycast(origin + (collider.bounds.max.z * Vector3.forward), Vector3.down, out hits[4], .1f, crateLayerMask);
+            foreach (RaycastHit hit in hits)
+            {
+                if(hit.collider != null)
+                {
+                    if(colliderMap.ContainsKey(hit.collider))
+                    {
+                        ++colliderMap[hit.collider];
+                    }
+                    else
+                    {
+                        colliderMap.Add(hit.collider, 0);
+                    }
+                }
+            }
+            int maxHits = 0;
+            foreach (KeyValuePair<Collider, int> entry in colliderMap)
+            {
+                if(entry.Value > maxHits)
+                {
+                    toBreak = entry.Key;
+                    maxHits = entry.Value;
+                }
+            }
+        }
+    }
 
 	public void LandOnCrate(){
 		grounded = true;

@@ -25,8 +25,8 @@ public class BounceCrate : Crate {
                 return;
             }
 
-            bool landed = Crash.S.collider.bounds.center.y > boxCol.bounds.max.y;
-            if (Crash.S.falling && landed)
+            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
+            if (Crash.S.falling && landed && Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
             {
                    Crash.S.Bounce(2 * bounceVel);
             }
@@ -55,8 +55,8 @@ public class BounceCrate : Crate {
                 return;
             }
 
-            bool landed = Crash.S.collider.bounds.center.y > boxCol.bounds.max.y;
-            if (Crash.S.falling && landed)
+            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
+            if (Crash.S.falling && landed && Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
             {
                 Crash.S.Bounce(2 * bounceVel);
             }

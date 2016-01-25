@@ -500,7 +500,7 @@ MonoBehaviour:
   spinEnd: 0
   spinCooldown: 0.7
   spin: 0
-  jumpVel: 5
+  jumpVel: 3.5
   jumpStartTime: 0
   jumpDur: 0.5
   jumpStart: 0
@@ -519,6 +519,7 @@ MonoBehaviour:
   prespinRotation: {x: 0, y: 0, z: 0, w: 0}
   checkpoint: {x: 0, y: 0, z: 0}
   rigid: {fileID: 0}
+  spinStartTime: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
