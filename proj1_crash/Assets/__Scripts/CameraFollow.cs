@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public struct DestroyedElement
-{
-    public string tag;
-    public Vector3 placement;
-    public Quaternion rotation;
-}
+//public struct DestroyedElement
+//{
+//    public string tag;
+//    public Vector3 placement;
+//    public Quaternion rotation;
+//}
 public class CameraFollow : MonoBehaviour
 {
     public ArrayList crateTags = new ArrayList{ "Crate", "MultiCrate", "BounceCrate", "LifeCrate", "TriggerCrate", "MaskCrate", "RandomCrate" };

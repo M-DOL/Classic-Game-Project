@@ -35,7 +35,7 @@ public class CrabEnemy : Enemy {
 			bool killEnemy = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .1f;
 
 			if(Crash.S.falling && killEnemy){
-                CameraFollow.S.AddToRespawn(gameObject);
+                RailMover.S.AddToRespawn(gameObject);
                 Destroy (this.gameObject);
 				Crash.S.Bounce (3f);
 			}
@@ -44,7 +44,7 @@ public class CrabEnemy : Enemy {
                 if (Crash.S.numMasks > 0)
                 {
                     Crash.S.KnockBack();
-                    CameraFollow.S.AddToRespawn(gameObject);
+                    RailMover.S.AddToRespawn(gameObject);
                     Destroy(this.gameObject);
                     AkuAkuMask.mask.LoseMask();
                 }

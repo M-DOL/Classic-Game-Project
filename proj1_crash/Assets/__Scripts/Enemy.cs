@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
         launchTime = Time.time;
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
         rigid.velocity = Vector3.forward * launchSpeed;
-        CameraFollow.S.AddToRespawn(gameObject);
+        RailMover.S.AddToRespawn(gameObject);
     }
 
 }

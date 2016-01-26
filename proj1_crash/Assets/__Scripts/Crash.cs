@@ -220,10 +220,10 @@ public class Crash : MonoBehaviour {
             transform.position = originalPosition;
 			transform.rotation = originalRotation;
 		}
-        CameraFollow.S.RespawnItems();
+        RailMover.S.RespawnItems();
         Vector3 cameraPos = transform.position;
-        cameraPos.z -= CameraFollow.S.frontFollowDistance;
-        CameraFollow.S.transform.position = cameraPos;
+        cameraPos.z -= RailMover.S.frontFollowDistance;
+        RailMover.S.transform.position = cameraPos;
     }
 
     public void PlaySound(string soundName)

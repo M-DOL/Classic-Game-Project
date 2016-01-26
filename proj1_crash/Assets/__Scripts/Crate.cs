@@ -119,7 +119,7 @@ public class Crate : MonoBehaviour
     }
     public virtual void BreakBox(bool crushed)
     {
-        CameraFollow.S.AddToRespawn(gameObject);
+		RailMover.S.AddToRespawn(gameObject);
         Destroy(this.gameObject);
         Crash.S.PlaySound("CrateBreak");
         if (items == null || items.Count == 0)

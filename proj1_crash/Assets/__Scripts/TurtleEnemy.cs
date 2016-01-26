@@ -43,7 +43,7 @@ public class TurtleEnemy : Enemy
         {
             if (Time.time - launchTime > launchDuration)
             {
-                CameraFollow.S.AddToRespawn(gameObject);
+                RailMover.S.AddToRespawn(gameObject);
                 Destroy(this.gameObject);
             }
             else
@@ -98,7 +98,7 @@ public class TurtleEnemy : Enemy
             {
                 if (Crash.S.numMasks > 0)
                 {
-                    CameraFollow.S.AddToRespawn(gameObject);
+                    RailMover.S.AddToRespawn(gameObject);
                     Destroy(this.gameObject);
                     AkuAkuMask.mask.LoseMask();
                 }

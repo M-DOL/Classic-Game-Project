@@ -58,7 +58,7 @@ public class WumpaFruit : MonoBehaviour
             rigid.useGravity = false;
         }
         if ((col.gameObject.tag == "Crash" && !Crash.S.spinning && Time.time - startTime > invincibleDur) ||
-        CameraFollow.S.crateTags.Contains(col.gameObject.tag))
+        RailMover.S.crateTags.Contains(col.gameObject.tag))
         {
             FlyToCounter();
         }
@@ -75,7 +75,7 @@ public class WumpaFruit : MonoBehaviour
             return;
         }
         if ((col.gameObject.tag == "Crash" && !Crash.S.spinning && Time.time - startTime > invincibleDur) ||
-        CameraFollow.S.crateTags.Contains(col.gameObject.tag))
+        RailMover.S.crateTags.Contains(col.gameObject.tag))
         {
             FlyToCounter();
         }
