@@ -53,7 +53,6 @@ public class Crate : MonoBehaviour
                 boxCol.bounds.max.y < Crash.S.collider.bounds.center.y))
             {
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
-                print(crateAbove);
                 BreakBox(crateAbove);
                 return;
             }
@@ -72,6 +71,13 @@ public class Crate : MonoBehaviour
                     Crash.S.LandOnCrate();
                 }
             }
+            else if(Crash.S.jumping)
+            {
+                BreakBox(true);
+                Vector3 fallVel = Crash.S.rigid.velocity;
+                fallVel.y = 0;
+                Crash.S.rigid.velocity = fallVel;
+            }
         }
     }
 
@@ -88,7 +94,6 @@ public class Crate : MonoBehaviour
                 boxCol.bounds.max.y < (Crash.S.collider.bounds.center.y + .01f))
             {
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
-                print(crateAbove);
                 BreakBox(crateAbove);
                 return;
             }
