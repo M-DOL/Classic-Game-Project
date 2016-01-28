@@ -47,6 +47,7 @@ public class CameraFollow : MonoBehaviour
         {
             frontFacing = false;
         }
+        newPos.x = Crash.S.sceneCenter.x;
         newPos.z = Crash.S.transform.position.z - (frontFacing ? frontFollowDistance : backFollowDistance);
         if (Mathf.Abs(newPos.z - Camera.main.transform.position.z) > distThres)
         {
@@ -56,7 +57,7 @@ public class CameraFollow : MonoBehaviour
         {
             Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position, newPos, Time.deltaTime * speed);
         }
-        //transform.rotation = Quaternion.Euler(15f, Vector3.RotateTowards(Crash.S.lastSceneCenter, Crash.S.sceneCenter, .2f, 0.0f).y, 0);
+        transform.rotation = Quaternion.Euler(0, Vector3.RotateTowards(Crash.S.lastSceneCenter, Crash.S.sceneCenter, .2f, 0.0f).x, 0);
     }
     public void RespawnItems()
     {

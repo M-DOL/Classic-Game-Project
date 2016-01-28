@@ -103,7 +103,7 @@ public class Crash : MonoBehaviour {
         Physics.Raycast(transform.position, Vector3.right, out sceneRight, maxWallDist, wallLayerMask);
         lastSceneCenter = sceneCenter;
         sceneCenter = Vector3.zero;
-        //sceneCenter.x = sceneLeft.transform.position.x + (sceneLeft.distance + sceneRight.distance) / 2f;
+        sceneCenter = (sceneLeft.point + sceneRight.point)/2f;
         //Spinning
         if (spin && !spinning && Time.time - spinEnd > spinCooldown)
         {
