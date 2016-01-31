@@ -100,8 +100,14 @@ MonoBehaviour:
   flying: 0
   lifeDir: {x: 0, y: 0, z: 0}
   rigid: {fileID: 0}
-  countSpeed: 300
-  sizeCorrection: 0.35
+  rend: {fileID: 0}
+  flickering: 0
+  flickerTimes: 6
+  countSpeed: 10
+  sizeCorrection: 0.97
+  lifeIconOffsetX: -30
+  lifeIconOffsetY: 30
+  terminalDistance: 30
 --- !u!212 &21299028
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -146,6 +152,23 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_UseGravity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: terminalDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: countSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2b7baad59494c4f4cb26ad5729a4cd0d,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

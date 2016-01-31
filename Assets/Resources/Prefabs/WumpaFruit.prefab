@@ -247,20 +247,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigid: {fileID: 0}
   rotSpeed: 3
-  countSpeed: 300
+  countSpeed: 20
   fruitFlySpeed: 100
   flying: 0
   knocked: 0
   knockStart: 0
   knockDur: 1
   fruitDelay: 0.1
-  sizeCorrection: 0.35
   startTime: 0
   invincibleDur: 0.5
   fruitFlyHeight: 0.5
-  crateLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
+  sizeCorrection: 0.98
+  terminalDistance: 50
+  fruitIconOffsetX: 30
+  fruitIconOffsetY: -30
+  crateLayerMask: 0
+  groundLayerMask: 0
   fruitDir: {x: 0, y: 0, z: 0}
 --- !u!135 &13556036
 SphereCollider:
@@ -300,6 +302,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: flyDur
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: countSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sizeCorrection
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: terminalDistance
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

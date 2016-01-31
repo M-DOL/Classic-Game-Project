@@ -18,7 +18,7 @@ public class CameraFollow : MonoBehaviour
     public bool frontFacing = true;
     public float speed = 2f;
     public float distThres = .01f;
-    Vector3 newPos;
+    public Vector3 newPos;
     public static CameraFollow S;
     void Awake()
     {

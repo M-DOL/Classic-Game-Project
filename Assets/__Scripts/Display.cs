@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Display : MonoBehaviour
 {
-
     public static Display S;
-    public int maxLives;
+    public bool lifeFlying = false;
+    public int maxLives = 0;
     public int numFruit = 0;
     public int numLives = 3;
     bool onBreak = false;
@@ -16,16 +16,23 @@ public class Display : MonoBehaviour
     public int remainingIncrementFruits = 0;
     public float visibleDur = 3.5f;
     public float visibleStart = 1f;
-    public float hideY = 60f;
-    public float hideShowSpeed = 90f;
+    public float hideY = 120f;
+    public float hideShowSpeed = 150f;
     public Text livesText;
     public Text fruitText;
-    public Vector3 fruitDest, lifeDest, fruitTextPos, lifeTextPos, pauseTextPos;
+    public Vector3 fruitTextPos, lifeTextPos;
     public bool visible = true, hiding = false;
-    public Vector3 cameraToCanvas, visPos, hidePos;
     float start, select;
     public Text pauseText;
-    Transform fruits, lives;
+    public GameObject newLife;
+    bool flickering = false;
+    public int flickerTimes = 4;
+    Vector3 desPos;
+    Transform fruitIcon, fruitNum, livesNum, livesIcon;
+    Transform[] elements;
+    Vector3[] visPos, hidePos;
+    Vector3 fruitIconVis, livesIconVis, fruitNumVis, livesNumVis;
+    Vector3 fruitIconHide, livesIconHide, fruitNumHide, livesNumHide;
     void Awake()
     {
         S = this;
@@ -34,14 +41,21 @@ public class Display : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        fruits = transform.FindChild("FruitIcon");
-        lives = transform.FindChild("LivesIcon");
-        livesText = transform.FindChild("NumLives").GetComponent<Text>();
-        fruitText = transform.FindChild("NumFruits").GetComponent<Text>();
+        fruitIcon = transform.FindChild("FruitIcon");
+        livesIcon = transform.FindChild("LivesIcon");
+        livesNum = transform.FindChild("NumLives");
+        fruitNum = transform.FindChild("NumFruits");
+        elements = new Transform[] { fruitIcon,  livesIcon, livesNum, fruitNum};
+        livesText = livesNum.GetComponent<Text>();
+        fruitText = fruitNum.GetComponent<Text>();
+        visPos = new Vector3[] { fruitIcon.localPosition, livesIcon.localPosition, livesNum.localPosition, fruitNum.localPosition };
+        hidePos = new Vector3[] { fruitIcon.localPosition, livesIcon.localPosition, livesNum.localPosition, fruitNum.localPosition };
+        for(int i = 0; i < hidePos.Length; ++i)
+        {
+            hidePos[i].y += hideY;
+        }
         pauseText = transform.FindChild("Pause").GetComponent<Text>();
-        pauseTextPos = transform.FindChild("Pause").transform.position;
         pauseText.gameObject.SetActive(false);
-        cameraToCanvas = Camera.main.transform.position - transform.position;
     }
     void Update()
     {
@@ -75,21 +89,44 @@ public class Display : MonoBehaviour
     }
     void FixedUpdate()
     {
-        fruitDest = fruits.position;
-        lifeDest = lives.position;
+        if (lifeFlying)
+        {
+            newLife.transform.localPosition = Vector3.MoveTowards(newLife.transform.localPosition, desPos, 8f);
+            if(Vector3.Magnitude(newLife.transform.localPosition - desPos) < 1f)
+            {
+                StartCoroutine(Flicker());
+                lifeFlying = false;
+                desPos.x += 100f;
+            }
+        }
+        if (flickering)
+        {
+            newLife.transform.localPosition = Vector3.MoveTowards(newLife.transform.localPosition, desPos, 4f);
+            if (Vector3.Magnitude(newLife.transform.localPosition - desPos) < 1f)
+            {
+                IncrementLives();
+                Destroy(newLife);
+                flickering = false;
+            }
+        }
         if (hiding)
         {
-            transform.position = Vector3.MoveTowards(transform.position, hidePos, Time.deltaTime * hideShowSpeed);
-            if (hidePos.y - transform.position.y < .01f)
+            for (int i = 0; i < elements.Length; ++i)
+            {
+                elements[i].localPosition = Vector3.MoveTowards(elements[i].localPosition, hidePos[i], Time.deltaTime * hideShowSpeed);
+            }
+            if (hidePos[0].y - elements[0].localPosition.y < .01f)
             {
                 hiding = false;
             }
         }
-        else if(visible)
+        else if (visible)
         {
-            transform.position = Camera.main.transform.position - cameraToCanvas;
+            for (int i = 0; i < elements.Length; ++i)
+            {
+                elements[i].localPosition = visPos[i];
+            }
         }
-        pauseText.transform.position = pauseTextPos;
     }
     public void IncrementLives()
     {
@@ -97,7 +134,6 @@ public class Display : MonoBehaviour
         {
             ++numLives;
             livesText.text = numLives.ToString();
-            Crash.S.PlaySound("ExtraLife");
         }
     }
 
@@ -150,8 +186,6 @@ public class Display : MonoBehaviour
             visible = false;
             hiding = true;
         }
-        visPos = transform.position;
-        hidePos = new Vector3(visPos.x, visPos.y + hideY, visPos.z);
     }
     public void Show()
     {
@@ -169,6 +203,7 @@ public class Display : MonoBehaviour
     }
     public void Pause()
     {
+        AudioListener.pause = true;
         start = Input.GetAxisRaw("Submit");
         select = Input.GetAxisRaw("Cancel");
         Time.timeScale = 0;
@@ -176,8 +211,33 @@ public class Display : MonoBehaviour
         if (select > 0)
         {
             Time.timeScale = 1;
+            AudioListener.pause = false;
             pauseText.gameObject.SetActive(false);
             Show();
         }
+    }
+    public void lifeFly(Vector3 lifePos)
+    {
+        lifeFlying = true;
+        Vector2 startPos = Camera.main.WorldToViewportPoint(lifePos);
+        newLife = Instantiate(Resources.Load("Prefabs/LivesIcon")) as GameObject;
+        RectTransform loc = newLife.GetComponent<RectTransform>();
+        loc.position = Camera.main.ViewportToScreenPoint(startPos);
+        newLife.transform.SetParent(gameObject.transform);
+        newLife.transform.localScale = 2.2f * livesIcon.transform.localScale;
+        desPos = visPos[1];
+        desPos.x -= 100f;
+    }
+    public IEnumerator Flicker()
+    {
+        Image newLifeImage = newLife.GetComponent<Image>();
+        for (int i = 0; i < flickerTimes; ++i)
+        {
+            newLifeImage.color = Color.clear;
+            yield return new WaitForSeconds(.2f);
+            newLifeImage.color = Color.white;
+            yield return new WaitForSeconds(.2f);
+        }
+        flickering = true;
     }
 }
