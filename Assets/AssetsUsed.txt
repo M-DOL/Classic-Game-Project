@@ -12,3 +12,6 @@ http://www.blendswap.com/user/ThePixlDude
 Sand Texture from https://commons.wikimedia.org/wiki/File:Yellow_sand_texture.jpg
 Brick Texture from http://opengameart.org/node/9792
 Palm Tree from http://www.blendswap.com/blends/view/66850
+Crash Font from http://www.dafont.com/crash-a-like.font
+Game Over Sound from https://www.youtube.com/watch?v=q8rSCcW5hzg
+Title Music from https://www.youtube.com/watch?v=uETISdHq7Cg

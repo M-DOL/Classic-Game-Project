@@ -10,6 +10,20 @@ public class BounceCrate : Crate {
             BreakBox(true);
             return;
         }
+        if (col.gameObject.tag == "Crab")
+        {
+            if (col.gameObject.GetComponent<CrabEnemy>().launched)
+            {
+                BreakBox(false);
+            }
+        }
+        if (col.gameObject.tag == "Turtle")
+        {
+            if (col.gameObject.GetComponent<TurtleEnemy>().launched)
+            {
+                BreakBox(false);
+            }
+        }
         if (col.gameObject.tag == "Crash")
         {
 			if (Crash.S.invincible || (Crash.S.spinning &&

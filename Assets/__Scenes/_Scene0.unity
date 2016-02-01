@@ -653,7 +653,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 380, y: 230.1}
+  m_AnchoredPosition: {x: 380, y: 230}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &642658646
@@ -676,12 +676,12 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 87
+    m_Font: {fileID: 12800000, guid: 68c68e52bbfbd654a92b3426913aaed7, type: 3}
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 8
-    m_MaxSize: 87
+    m_MinSize: 0
+    m_MaxSize: 100
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1567,7 +1567,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeFlying: 0
-  maxLives: 0
   numFruit: 0
   numLives: 3
   breakStart: 0
@@ -1583,10 +1582,10 @@ MonoBehaviour:
   lifeTextPos: {x: 0, y: 0, z: 0}
   visible: 1
   hiding: 0
-  cameraToCanvas: {x: 0, y: 0, z: 0}
   pauseText: {fileID: 0}
   newLife: {fileID: 0}
   flickerTimes: 4
+  checkPointCrate: {fileID: 0}
 --- !u!1001 &1378539081
 Prefab:
   m_ObjectHideFlags: 0
@@ -2146,12 +2145,12 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 87
+    m_Font: {fileID: 12800000, guid: 68c68e52bbfbd654a92b3426913aaed7, type: 3}
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 8
-    m_MaxSize: 87
+    m_MinSize: 1
+    m_MaxSize: 100
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
