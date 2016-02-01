@@ -6,8 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/__Scenes/_Scene0.unity
-  - enabled: 1
     path: Assets/__Scenes/_Scene_GameOver.unity
   - enabled: 1
     path: Assets/__Scenes/_Scene_Title.unity
+  - enabled: 1
+    path: Assets/__Scenes/_CustomLevel.unity
+  - enabled: 1
+    path: Assets/__Scenes/_NSanityBeach_WH.unity

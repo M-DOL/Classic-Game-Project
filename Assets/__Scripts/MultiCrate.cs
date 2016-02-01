@@ -16,6 +16,22 @@ public class MultiCrate : Crate
     }
     public void OnCollisionEnter(Collision col)
     {
+        if (col.gameObject.tag == "Crab")
+        {
+            if (col.gameObject.GetComponent<CrabEnemy>().launched)
+            {
+                items = null;
+                BreakBox(false);
+            }
+        }
+        if (col.gameObject.tag == "Turtle")
+        {
+            if (col.gameObject.GetComponent<TurtleEnemy>().launched)
+            {
+                items = null;
+                BreakBox(false);
+            }
+        }
         if (col.gameObject.tag == "Crash")
         {
             if(Crash.S.invincible)
