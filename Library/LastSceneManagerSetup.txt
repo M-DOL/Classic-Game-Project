@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/__Scenes/_NSanityBeach_WH.unity
+- path: Assets/__Scenes/_CustomLevel.unity
   isLoaded: 1
   isActive: 1

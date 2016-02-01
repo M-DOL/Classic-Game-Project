@@ -44,7 +44,7 @@ public class Crash : MonoBehaviour
     float distToGround;
     float groundedOffset;
     int fakeGroundLayerMask, groundLayerMask, crateLayerMask;
-    RaycastHit[] hits = new RaycastHit[5];
+    RaycastHit[] hits = new RaycastHit[9];
     public Collider toBreak;
     Vector3 origin;
     private float[] offsets;
@@ -111,6 +111,18 @@ public class Crash : MonoBehaviour
             Time.time - jumpStartTime > jumpDur)
         {
             jumpCont = false;
+        }
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            invincible = true;
+            PlaySound("Invincible");
+            Camera.main.GetComponent<AudioSource>().Pause();
+        }
+        if(Input.GetKeyUp(KeyCode.I) && numMasks < 3)
+        {
+            invincible = false;
+            crashSound.Stop();
+            Camera.main.GetComponent<AudioSource>().Play();
         }
     }
     void FixedUpdate()
@@ -179,17 +191,17 @@ public class Crash : MonoBehaviour
         rigid.velocity = vel;
         if (jumping && falling)
         {
-            Vector3 centerPos = Crash.S.transform.position;
-            origin = centerPos;
+            origin = transform.position;
             origin.y = collider.bounds.min.y;
-            Physics.Raycast(origin, Vector3.down, out hits[0], .1f, crateLayerMask);
-            origin.x = 0;
-            Physics.Raycast(origin + (collider.bounds.min.x * Vector3.right), Vector3.down, out hits[1], .1f, crateLayerMask);
-            Physics.Raycast(origin + (collider.bounds.max.x * Vector3.right), Vector3.down, out hits[2], .1f, crateLayerMask);
-            origin.x = centerPos.x;
-            origin.z = 0;
-            Physics.Raycast(origin + (collider.bounds.min.z * Vector3.forward), Vector3.down, out hits[3], .1f, crateLayerMask);
-            Physics.Raycast(origin + (collider.bounds.max.z * Vector3.forward), Vector3.down, out hits[4], .1f, crateLayerMask);
+            Physics.Raycast(origin, Vector3.down, out hits[0], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * Vector3.left, Vector3.down, out hits[1], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * Vector3.right, Vector3.down, out hits[2], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * Vector3.forward, Vector3.down, out hits[3], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * Vector3.back, Vector3.down, out hits[4], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * (Vector3.back + Vector3.left),  Vector3.down, out hits[5], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * (Vector3.back + Vector3.right), Vector3.down, out hits[6], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * (Vector3.forward + Vector3.left), Vector3.down, out hits[7], distToGround, crateLayerMask);
+            Physics.Raycast(origin + groundedOffset * (Vector3.forward + Vector3.right), Vector3.down, out hits[8], distToGround, crateLayerMask);
             Dictionary<Collider, int> colliderMap = new Dictionary<Collider, int>();
             foreach (RaycastHit hit in hits)
             {

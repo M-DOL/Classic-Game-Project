@@ -35,9 +35,16 @@ public class Crate : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Crab" || col.gameObject.tag == "Turtle")
+        if (col.gameObject.tag == "Crab")
         {
-            if (col.gameObject.GetComponent<Enemy>().launched)
+            if (col.gameObject.GetComponent<CrabEnemy>().launched)
+            {
+                BreakBox(false);
+            }
+        }
+        if (col.gameObject.tag == "Turtle")
+        {
+            if (col.gameObject.GetComponent<TurtleEnemy>().launched)
             {
                 BreakBox(false);
             }
@@ -60,7 +67,7 @@ public class Crate : MonoBehaviour
             bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
             if (Crash.S.falling && landed)
             {
-                if (Crash.S.jumping && (Crash.S.toBreak == boxCol))
+                if (Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
                 {
                     //The box cannot be crushed if Crash is jumping on it
                     BreakBox(false);
