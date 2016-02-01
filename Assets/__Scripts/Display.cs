@@ -42,16 +42,17 @@ public class Display : MonoBehaviour
     void Start()
     {
         Show();
+       PlayerPrefs.SetString("CurrentScene", SceneManager.GetActiveScene().name);
         fruitIcon = transform.FindChild("FruitIcon");
         livesIcon = transform.FindChild("LivesIcon");
         livesNum = transform.FindChild("NumLives");
         fruitNum = transform.FindChild("NumFruits");
-        elements = new Transform[] { fruitIcon,  livesIcon, livesNum, fruitNum};
+        elements = new Transform[] { fruitIcon, livesIcon, livesNum, fruitNum };
         livesText = livesNum.GetComponent<Text>();
         fruitText = fruitNum.GetComponent<Text>();
         visPos = new Vector3[] { fruitIcon.localPosition, livesIcon.localPosition, livesNum.localPosition, fruitNum.localPosition };
         hidePos = new Vector3[] { fruitIcon.localPosition, livesIcon.localPosition, livesNum.localPosition, fruitNum.localPosition };
-        for(int i = 0; i < hidePos.Length; ++i)
+        for (int i = 0; i < hidePos.Length; ++i)
         {
             hidePos[i].y += hideY;
         }
@@ -66,6 +67,20 @@ public class Display : MonoBehaviour
         start = Input.GetAxis("Submit");
         select = Input.GetAxis("Cancel");
 
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Reset();
+            SceneManager.LoadScene("_NSanityBeach_WH");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Reset();
+            SceneManager.LoadScene("_CustomLevel");
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Show();
+        }
         if (start > 0)
         {
             ScreenFader.S.EndScene();
@@ -96,7 +111,7 @@ public class Display : MonoBehaviour
         if (lifeFlying)
         {
             newLife.transform.localPosition = Vector3.MoveTowards(newLife.transform.localPosition, desPos, 8f);
-            if(Vector3.Magnitude(newLife.transform.localPosition - desPos) < 1f)
+            if (Vector3.Magnitude(newLife.transform.localPosition - desPos) < 1f)
             {
                 StartCoroutine(Flicker());
                 lifeFlying = false;
@@ -139,8 +154,8 @@ public class Display : MonoBehaviour
     }
     public void IncrementLives()
     {
-            ++numLives;
-            livesText.text = numLives.ToString();
+        ++numLives;
+        livesText.text = numLives.ToString();
     }
 
     public void DecrementLives()
@@ -154,8 +169,6 @@ public class Display : MonoBehaviour
         else
         {
             // Game Over
-            PlayerPrefs.DeleteAll();
-            PlayerPrefs.SetInt("Lives", 3);
             SceneManager.LoadScene("_Scene_GameOver");
         }
     }
@@ -263,6 +276,10 @@ public class Display : MonoBehaviour
         flickering = true;
     }
     void OnApplicationQuit()
+    {
+        Reset();
+    }
+    public void Reset()
     {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetInt("Lives", 3);

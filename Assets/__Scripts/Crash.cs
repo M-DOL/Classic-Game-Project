@@ -55,6 +55,8 @@ public class Crash : MonoBehaviour
     public Vector3 sceneCenter = Vector3.zero, lastSceneCenter = Vector3.zero;
     public bool set2D = false;
     public float pos2D;
+    Color origColor;
+    Renderer rend, rendL, rendR;
     public static Crash S;
 
     void Awake()
@@ -67,6 +69,10 @@ public class Crash : MonoBehaviour
     {
         rigid = gameObject.GetComponent<Rigidbody>();
         collider = gameObject.GetComponent<BoxCollider>();
+        rend = gameObject.GetComponent<Renderer>();
+        rendR = transform.FindChild("ArmR").GetComponent<Renderer>();
+        rendL = transform.FindChild("ArmL").GetComponent<Renderer>();
+        origColor = rend.material.color;
         checkpoint.x = PlayerPrefs.GetFloat("CheckpointX");
         checkpoint.y = PlayerPrefs.GetFloat("CheckpointY");
         checkpoint.z = PlayerPrefs.GetFloat("CheckpointZ");
@@ -97,8 +103,16 @@ public class Crash : MonoBehaviour
         // Get movement input
         iH = Input.GetAxis("Horizontal");
         iV = Input.GetAxis("Vertical");
-        spin = Input.GetKeyDown(KeyCode.S);
+        spin = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Q);
         jumpStart = Input.GetKeyDown(KeyCode.A);
+        if (spin && !spinning && Time.time - spinEnd > spinCooldown)
+        {
+            spin = false;
+            prespinRotation = transform.rotation;
+            spinning = true;
+            spinStartTime = Time.time;
+            PlaySound("Spin");
+        }
         if (!jumping && jumpStart && grounded)
         {
             PlaySound("Jump");
@@ -116,11 +130,17 @@ public class Crash : MonoBehaviour
         {
             invincible = true;
             PlaySound("Invincible");
+            rend.material.color = Color.yellow;
+            rendL.material.color = Color.yellow;
+            rendR.material.color = Color.yellow;
             Camera.main.GetComponent<AudioSource>().Pause();
         }
         if(Input.GetKeyUp(KeyCode.I) && numMasks < 3)
         {
             invincible = false;
+            rend.material.color = origColor;
+            rendL.material.color = origColor;
+            rendR.material.color = origColor;
             crashSound.Stop();
             Camera.main.GetComponent<AudioSource>().Play();
         }
@@ -142,15 +162,8 @@ public class Crash : MonoBehaviour
         set2D = Physics.Raycast(collider.bounds.max, Vector3.forward, max2DDist, groundLayerMask);
         pos2D = Crash.S.transform.position.z - 7f;
         //Spinning
-        if (spin && !spinning && Time.time - spinEnd > spinCooldown)
-        {
-            spin = false;
-            prespinRotation = transform.rotation;
-            spinning = true;
-            spinStartTime = Time.time;
-            PlaySound("Spin");
-        }
-        else if (spinning)
+
+        if (spinning)
         {
             if (((jumping || falling) && Time.time - spinStartTime > airSpinDuration) || Time.time - spinStartTime > spinDuration)
             {

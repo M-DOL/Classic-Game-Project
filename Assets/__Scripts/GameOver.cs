@@ -20,6 +20,16 @@ public class GameOver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Reset();
+            SceneManager.LoadScene("_NSanityBeach_WH");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Reset();
+            SceneManager.LoadScene("_CustomLevel");
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow) && onYes)
         {
             selectorN.GetComponent<Text>().color = on;
@@ -34,16 +44,22 @@ public class GameOver : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            PlayerPrefs.SetInt("Fruits", 0);
-            PlayerPrefs.SetInt("Lives", 3);
+            
             if (!onYes)
             {
-                SceneManager.LoadScene("_Scene_Title");
+                Application.Quit();
             }
             else
             {
-                SceneManager.LoadScene("_NSanityBeach_WH");
+                string sceneToLoad = PlayerPrefs.GetString("CurrentScene");
+                Reset();
+                SceneManager.LoadScene(sceneToLoad);
             }
         }
+    }
+    void Reset()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("Lives", 3);
     }
 }
