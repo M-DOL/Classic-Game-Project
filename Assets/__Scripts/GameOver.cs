@@ -34,13 +34,15 @@ public class GameOver : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
+            PlayerPrefs.SetInt("Fruits", 0);
+            PlayerPrefs.SetInt("Lives", 3);
             if (!onYes)
             {
                 SceneManager.LoadScene("_Scene_Title");
             }
             else
             {
-                SceneManager.LoadScene("_Scene0");
+                SceneManager.LoadScene("_NSanityBeach_WH");
             }
         }
     }

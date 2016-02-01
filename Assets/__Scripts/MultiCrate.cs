@@ -25,7 +25,8 @@ public class MultiCrate : Crate
                 BreakBox(true);
                 return;
             }
-			if (Crash.S.spinning)
+            if (Crash.S.spinning &&
+               boxCol.bounds.max.y < Crash.S.collider.bounds.center.y + .2f)
             {
                 items = null;
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
@@ -38,12 +39,16 @@ public class MultiCrate : Crate
             {
                 if (Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
                 {
-                    if (fruitsRemaining > 0)
+                    if (fruitsRemaining == 9)
                     {
-                        if (fruitsRemaining == 9)
-                        {
-                            startTime = Time.time;
-                        }
+                        startTime = Time.time;
+                    }
+                    if (Time.time - startTime > fruitDuration)
+                    {
+                        items = null;
+                    }
+                    else if (fruitsRemaining > 0)
+                    {
                         --fruitsRemaining;
                         Vector3 fruitPos = transform.position;
                         fruitPos.y += .5f;
@@ -51,14 +56,7 @@ public class MultiCrate : Crate
                         GameObject fruit = Instantiate(fruitPrefab, fruitPos, Quaternion.identity) as GameObject;
                         fruit.GetComponent<WumpaFruit>().FlyToCounter();
                         Crash.S.Bounce(bounceVel);
-                        if (Time.time - startTime < fruitDuration)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            items = null;
-                        }
+                        return;
                     }
                     bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
                     BreakBox(crateAbove);
@@ -72,18 +70,22 @@ public class MultiCrate : Crate
     }
     void OnCollisionStay(Collision col)
     {
-        if (col.gameObject.tag == "Crash" && Crash.S.invincible)
+        if(col.gameObject.tag == "Crash")
         {
-            items = new List<ObjectSet>();
-            items.Add(new ObjectSet(fruitPrefab, fruitsRemaining + 1));
-            BreakBox(true);
-            return;
-        }
-        if (col.gameObject.tag == "Crash" && Crash.S.spinning)
-        {
-            items = null;
-            bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
-            BreakBox(crateAbove);
+            if (Crash.S.invincible)
+            {
+                items = new List<ObjectSet>();
+                items.Add(new ObjectSet(fruitPrefab, fruitsRemaining + 1));
+                BreakBox(true);
+                return;
+            }
+            if (Crash.S.spinning &&
+                   boxCol.bounds.max.y < Crash.S.collider.bounds.center.y + .2f)
+            {
+                items = null;
+                bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
+                BreakBox(crateAbove);
+            }
         }
     }
 }

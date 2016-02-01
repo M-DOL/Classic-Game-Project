@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class Crash : MonoBehaviour {
-	public float speed = 6f;
+public class Crash : MonoBehaviour
+{
+    public float speed = 6f;
 
     public float spinDuration = .4f;
     public float airSpinDuration = .2f;
@@ -18,19 +19,19 @@ public class Crash : MonoBehaviour {
     public float jumpDur = .5f;
     public bool jumpStart, jumpCont;
 
-	public float invincibleDur = 20f;
-	public float invincibleStart = 1f;
-	public bool invincible = false;
+    public float invincibleDur = 20f;
+    public float invincibleStart = 1f;
+    public bool invincible = false;
     public bool grounded = true;
-	public bool jumping = false;
-	public bool falling = false;
-	public bool spinning = false;
-	public new BoxCollider collider;
+    public bool jumping = false;
+    public bool falling = false;
+    public bool spinning = false;
+    public new BoxCollider collider;
 
-	public int numMasks;
+    public int numMasks;
 
-	public Vector3 originalPosition;
-	public Quaternion originalRotation;
+    public Vector3 originalPosition;
+    public Quaternion originalRotation;
     public Quaternion prespinRotation;
     public Vector3 checkpoint = Vector3.zero;
 
@@ -39,42 +40,56 @@ public class Crash : MonoBehaviour {
 
     public Rigidbody rigid;
     float iH, iV;
-	Vector3 vel;
-	float distToGround;
-	float groundedOffset;
-	int groundLayerMask, crateLayerMask;
-    RaycastHit[] hits = new RaycastHit[5]; 
-    Dictionary<Collider, int> colliderMap = new Dictionary<Collider, int>();
+    Vector3 vel;
+    float distToGround;
+    float groundedOffset;
+    int fakeGroundLayerMask, groundLayerMask, crateLayerMask;
+    RaycastHit[] hits = new RaycastHit[5];
     public Collider toBreak;
     Vector3 origin;
     private float[] offsets;
     private LayerMask wallLayerMask;
-    private RaycastHit sceneLeft, sceneRight;
-    public float maxWallDist = 20f;
-	public float spinStartTime;
+    private RaycastHit sceneLeft, sceneRight, sceneFloor;
+    public float maxWallDist = 10f, maxGroundDist = 20f, max2DDist = 3f;
+    public float spinStartTime;
     public Vector3 sceneCenter = Vector3.zero, lastSceneCenter = Vector3.zero;
-	public static Crash S;
+    public bool set2D = false;
+    public float pos2D;
+    public static Crash S;
 
-	void Awake(){
-		S = this;
-	}
+    void Awake()
+    {
+        S = this;
+    }
 
-	// Use this for initialization
-	void Start () {
-		originalPosition = S.transform.position;
-		originalRotation = S.transform.rotation;
+    // Use this for initialization
+    void Start()
+    {
+        rigid = gameObject.GetComponent<Rigidbody>();
+        collider = gameObject.GetComponent<BoxCollider>();
+        checkpoint.x = PlayerPrefs.GetFloat("CheckpointX");
+        checkpoint.y = PlayerPrefs.GetFloat("CheckpointY");
+        checkpoint.z = PlayerPrefs.GetFloat("CheckpointZ");
+        if (checkpoint != Vector3.zero)
+        {
+            transform.position = checkpoint;
+            Destroy(Display.S.checkPointCrate);
+        }
+        Vector3 cameraPos = transform.position;
+        cameraPos.y += 4f;
+        cameraPos.z -= CameraFollow.S.frontFollowDistance;
+        CameraFollow.S.transform.position = cameraPos;
 
-		rigid = gameObject.GetComponent<Rigidbody> ();
-		collider = gameObject.GetComponent<BoxCollider> ();
 
-		distToGround = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
-		groundedOffset = collider.size.x / 2f;
+        distToGround = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
+        groundedOffset = collider.size.x / 2f;
 
-		groundLayerMask = LayerMask.GetMask ("Ground");
+        groundLayerMask = LayerMask.GetMask("Ground");
+        fakeGroundLayerMask = LayerMask.GetMask("FakeGround");
         crateLayerMask = LayerMask.GetMask("Crate");
         crashSound = GetComponent<AudioSource>();
         wallLayerMask = LayerMask.GetMask("Wall");
-	}
+    }
 
     // Update is called once per frame
     void Update()
@@ -84,7 +99,7 @@ public class Crash : MonoBehaviour {
         iV = Input.GetAxis("Vertical");
         spin = Input.GetKeyDown(KeyCode.S);
         jumpStart = Input.GetKeyDown(KeyCode.A);
-        if (!jumping && jumpStart)
+        if (!jumping && jumpStart && grounded)
         {
             PlaySound("Jump");
             jumping = true;
@@ -98,77 +113,89 @@ public class Crash : MonoBehaviour {
             jumpCont = false;
         }
     }
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
         Physics.Raycast(transform.position, Vector3.left, out sceneLeft, maxWallDist, wallLayerMask);
         Physics.Raycast(transform.position, Vector3.right, out sceneRight, maxWallDist, wallLayerMask);
         lastSceneCenter = sceneCenter;
         sceneCenter = Vector3.zero;
         sceneCenter = (sceneLeft.point + sceneRight.point) / 2f;
+        if (!set2D)
+        {
+            if (Physics.Raycast(transform.position, Vector3.down, out sceneFloor, maxGroundDist, groundLayerMask | fakeGroundLayerMask))
+            {
+                sceneCenter.y = sceneFloor.point.y;
+            }
+        }
+        set2D = Physics.Raycast(collider.bounds.max, Vector3.forward, max2DDist, groundLayerMask);
+        pos2D = Crash.S.transform.position.z - 7f;
         //Spinning
         if (spin && !spinning && Time.time - spinEnd > spinCooldown)
         {
             spin = false;
             prespinRotation = transform.rotation;
-			spinning = true;
-			spinStartTime = Time.time;
+            spinning = true;
+            spinStartTime = Time.time;
             PlaySound("Spin");
-		}
-		else if(spinning)
+        }
+        else if (spinning)
         {
-            if(((jumping || falling) && Time.time - spinStartTime > airSpinDuration) || Time.time - spinStartTime > spinDuration)
+            if (((jumping || falling) && Time.time - spinStartTime > airSpinDuration) || Time.time - spinStartTime > spinDuration)
             {
                 spinning = false;
                 transform.rotation = prespinRotation;
                 spinEnd = Time.time;
             }
-		}
+        }
 
-		// Set the x and z values of new velocity
-		vel = Vector3.zero;
-		vel.z += iV * speed;
-		vel.x += iH * speed;
+        // Set the x and z values of new velocity
+        vel = Vector3.zero;
+        vel.z += iV * speed;
+        vel.x += iH * speed;
 
-		if(spinning)
+        if (spinning)
         {
-			transform.Rotate (Vector3.up, spinSpeed * Time.fixedDeltaTime);
-		}
-		else if(GetArrowInput() && vel != Vector3.zero)
+            transform.Rotate(Vector3.up, spinSpeed * Time.fixedDeltaTime);
+        }
+        else if (GetArrowInput() && vel != Vector3.zero)
         {
-			transform.rotation = Quaternion.LookRotation(vel);
-		}
-		falling = rigid.velocity.y < -.01f;
-		grounded = (grounded && !jumping) || OnGround ();
-		if (jumpCont)
+            transform.rotation = Quaternion.LookRotation(vel);
+        }
+        falling = rigid.velocity.y < -.01f;
+        grounded = (grounded && !jumping) || OnGround();
+        if (jumpCont)
         {
-                vel.y = jumpVel;
-		}
+            vel.y = jumpVel;
+        }
         else
         {
-			if (grounded) {
-				jumping = false;
-			}
+            if (grounded)
+            {
+                jumping = false;
+            }
             vel.y = rigid.velocity.y;
         }
-		// Apply our new velocity
-		rigid.velocity = vel;
-        if(jumping && falling)
+        // Apply our new velocity
+        rigid.velocity = vel;
+        if (jumping && falling)
         {
-            origin = Crash.S.transform.position;
+            Vector3 centerPos = Crash.S.transform.position;
+            origin = centerPos;
             origin.y = collider.bounds.min.y;
             Physics.Raycast(origin, Vector3.down, out hits[0], .1f, crateLayerMask);
             origin.x = 0;
             Physics.Raycast(origin + (collider.bounds.min.x * Vector3.right), Vector3.down, out hits[1], .1f, crateLayerMask);
-            origin.x = 0;
             Physics.Raycast(origin + (collider.bounds.max.x * Vector3.right), Vector3.down, out hits[2], .1f, crateLayerMask);
+            origin.x = centerPos.x;
             origin.z = 0;
             Physics.Raycast(origin + (collider.bounds.min.z * Vector3.forward), Vector3.down, out hits[3], .1f, crateLayerMask);
-            origin.z = 0;
             Physics.Raycast(origin + (collider.bounds.max.z * Vector3.forward), Vector3.down, out hits[4], .1f, crateLayerMask);
+            Dictionary<Collider, int> colliderMap = new Dictionary<Collider, int>();
             foreach (RaycastHit hit in hits)
             {
-                if(hit.collider != null)
+                if (hit.collider != null)
                 {
-                    if(colliderMap.ContainsKey(hit.collider))
+                    if (colliderMap.ContainsKey(hit.collider))
                     {
                         ++colliderMap[hit.collider];
                     }
@@ -181,7 +208,7 @@ public class Crash : MonoBehaviour {
             int maxHits = 0;
             foreach (KeyValuePair<Collider, int> entry in colliderMap)
             {
-                if(entry.Value > maxHits)
+                if (entry.Value > maxHits)
                 {
                     toBreak = entry.Key;
                     maxHits = entry.Value;
@@ -190,51 +217,47 @@ public class Crash : MonoBehaviour {
         }
     }
 
-	public void LandOnCrate(){
-		grounded = true;
-	}
+    public void LandOnCrate()
+    {
+        grounded = true;
+    }
 
-	public void Bounce(float bounceVel){
-		Vector3 vel = rigid.velocity;
-		vel.y = bounceVel;
-		rigid.velocity = vel;
+    public void Bounce(float bounceVel)
+    {
+        Vector3 vel = rigid.velocity;
+        vel.y = bounceVel;
+        rigid.velocity = vel;
         PlaySound("CrateBounce");
-	}
+    }
 
-	bool OnGround(){
-		return Physics.Raycast (transform.position, Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * Vector3.left, Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * Vector3.right, Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * Vector3.forward, Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * Vector3.back, Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * (Vector3.back + Vector3.left), Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * (Vector3.back + Vector3.right), Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * (Vector3.forward + Vector3.left), Vector3.down, distToGround, groundLayerMask)
-			|| Physics.Raycast(transform.position + groundedOffset * (Vector3.forward + Vector3.right), Vector3.down, distToGround, groundLayerMask);
-	}
+    bool OnGround()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * Vector3.left, Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * Vector3.right, Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * Vector3.forward, Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * Vector3.back, Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * (Vector3.back + Vector3.left), Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * (Vector3.back + Vector3.right), Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * (Vector3.forward + Vector3.left), Vector3.down, distToGround, groundLayerMask)
+            || Physics.Raycast(transform.position + groundedOffset * (Vector3.forward + Vector3.right), Vector3.down, distToGround, groundLayerMask);
+    }
 
-	// Returns true if an arrow key is being pressed
-	bool GetArrowInput(){
-		return Input.GetKey (KeyCode.LeftArrow)
-			|| Input.GetKey (KeyCode.RightArrow)
-			|| Input.GetKey (KeyCode.UpArrow)
-			|| Input.GetKey (KeyCode.DownArrow);
-	}
+    // Returns true if an arrow key is being pressed
+    bool GetArrowInput()
+    {
+        return Input.GetKey(KeyCode.LeftArrow)
+            || Input.GetKey(KeyCode.RightArrow)
+            || Input.GetKey(KeyCode.UpArrow)
+            || Input.GetKey(KeyCode.DownArrow);
+    }
 
-	public void Respawn(){
+    public void Respawn()
+    {
         PlaySound("Woah");
-        ScreenFader.S.EndScene();
-        if (checkpoint != Vector3.zero) {
-            transform.position = checkpoint;
-			transform.rotation = originalRotation;
-		} else {
-            transform.position = originalPosition;
-			transform.rotation = originalRotation;
-		}
-        CameraFollow.S.RespawnItems();
-        Vector3 cameraPos = transform.position;
-        cameraPos.z -= CameraFollow.S.frontFollowDistance;
-        CameraFollow.S.transform.position = cameraPos;
+        PlayerPrefs.SetInt("Fruits", Display.S.numFruit);
+        PlayerPrefs.SetInt("Lives", Display.S.numLives);
+        StartCoroutine(Restart());
     }
 
     public void PlaySound(string soundName)
@@ -246,13 +269,27 @@ public class Crash : MonoBehaviour {
         PlaySound("Woah");
         Vector3 knockVel = rigid.velocity;
         knockVel.y = jumpVel;
-        rigid.velocity = knockVel; 
+        rigid.velocity = knockVel;
     }
-	public IEnumerator Invincible(){
+    public IEnumerator Invincible()
+    {
         Crash.S.PlaySound("AkuAkuInvincible");
-		invincible = true;
-		yield return new WaitForSeconds (20);
-		invincible = false;
-		AkuAkuMask.mask.LoseMask ();
-	}
+        invincible = true;
+        yield return new WaitForSeconds(20);
+        invincible = false;
+        Crash.S.LoseMask();
+    }
+    public void LoseMask()
+    {
+        if (numMasks == 1)
+        {
+            Destroy(transform.FindChild("AkuAkuMask").gameObject);
+        }
+        numMasks--;
+    }
+    IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(.2f);
+        SceneManager.LoadScene("_NSanityBeach_WH");
+    }
 }

@@ -8,7 +8,10 @@ public class Killzone : MonoBehaviour
         if(coll.tag == "Crash")
         {
             Display.S.DecrementLives();
-            Crash.S.Respawn();
+            if (Display.S.numLives >= 0)
+            {
+                Crash.S.Respawn();
+            }
         }
     }
 }

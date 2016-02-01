@@ -12,12 +12,7 @@ public class Enemy : MonoBehaviour
 
     protected BoxCollider boxCol;
     protected Rigidbody rigid;
-
-    public static Enemy S;
-    void Awake()
-    {
-        S = this;
-    }
+    
     // Use this for initialization
     void Start()
     {
@@ -42,7 +37,6 @@ public class Enemy : MonoBehaviour
         launchTime = Time.time;
         rigid.constraints = RigidbodyConstraints.FreezeRotation;
         rigid.velocity = Vector3.forward * launchSpeed;
-        CameraFollow.S.AddToRespawn(gameObject);
     }
 
 }

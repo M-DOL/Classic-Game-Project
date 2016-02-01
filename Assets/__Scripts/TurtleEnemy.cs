@@ -43,7 +43,6 @@ public class TurtleEnemy : Enemy
         {
             if (Time.time - launchTime > launchDuration)
             {
-                CameraFollow.S.AddToRespawn(gameObject);
                 Destroy(this.gameObject);
             }
             else
@@ -80,7 +79,11 @@ public class TurtleEnemy : Enemy
         }
         if (col.gameObject.tag == "Crash")
         {
-			if (Crash.S.spinning || Crash.S.invincible)
+            if (launched)
+            {
+                return;
+            }
+            if (Crash.S.spinning || Crash.S.invincible)
             {
                 LaunchEnemy();
                 return;
@@ -99,13 +102,17 @@ public class TurtleEnemy : Enemy
                 if (Crash.S.numMasks > 0)
                 {
                     Crash.S.KnockBack();
-                    CameraFollow.S.AddToRespawn(gameObject);
                     Destroy(this.gameObject);
-                    AkuAkuMask.mask.LoseMask();
+                    Crash.S.LoseMask();
                 }
-                Display.S.DecrementLives();
-                //Display.S.Restart ();
-                Crash.S.Respawn();
+                else
+                {
+                    Display.S.DecrementLives();
+                    if (Display.S.numLives >= 0)
+                    {
+                        Crash.S.Respawn();
+                    }
+                }
             }
         }
     }

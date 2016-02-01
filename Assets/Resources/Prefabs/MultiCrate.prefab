@@ -107,15 +107,20 @@ MonoBehaviour:
   - numObjects: 1
     type: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   bounceVel: 3
+  fruitVelY: 3
+  fruitVelXZ: 1.5
   itemOffset: 0.5
   invincible: 0
   rigid: {fileID: 0}
   crateLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  obj:
+    numObjects: 0
+    type: {fileID: 0}
   fruitPrefab: {fileID: 129888, guid: 1c4ae8bdb9ec19e4a8beafa424409b85, type: 2}
   startTime: 0
-  fruitDuration: 7
+  fruitDuration: 7.5
   fruitsRemaining: 9
 --- !u!1001 &100100000
 Prefab:
@@ -147,6 +152,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fruitDuration
+      value: 7.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

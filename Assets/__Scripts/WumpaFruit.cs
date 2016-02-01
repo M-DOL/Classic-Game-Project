@@ -64,7 +64,7 @@ public class WumpaFruit : MonoBehaviour
             rigid.velocity = Vector3.zero;
             rigid.useGravity = false;
         }
-        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning && Time.time - startTime > invincibleDur) ||
        (col.gameObject.layer == crateLayerMask && col.gameObject.GetComponent<Rigidbody>().velocity.y < 0))
         {
             FlyToCounter();
@@ -81,7 +81,7 @@ public class WumpaFruit : MonoBehaviour
         {
             return;
         }
-        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning) ||
+        if ((col.gameObject.tag == "Crash" && !Crash.S.spinning && Time.time - startTime > invincibleDur) ||
        (col.gameObject.layer == crateLayerMask && col.gameObject.GetComponent<Rigidbody>().velocity.y < 0))
         {
             FlyToCounter();

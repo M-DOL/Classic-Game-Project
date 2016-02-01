@@ -17,6 +17,7 @@ TagManager:
   - RandomCrate
   - LifeCrate
   - Ground
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -31,8 +32,8 @@ TagManager:
   - Wall
   - Crate
   - Enemy
-  - 
-  - 
+  - FakeGround
+  - Killzone
   - 
   - 
   - 

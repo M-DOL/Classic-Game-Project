@@ -10,11 +10,6 @@ public class BounceCrate : Crate {
             BreakBox(true);
             return;
         }
-        if (rigid.velocity.y < 0f)
-        {
-            invincible = true;
-            return;
-        }
         if (col.gameObject.tag == "Crash")
         {
 			if (Crash.S.invincible || (Crash.S.spinning &&
@@ -25,7 +20,7 @@ public class BounceCrate : Crate {
                 return;
             }
 
-            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
+            bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
             if (Crash.S.falling && landed && Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
             {
                    Crash.S.Bounce(2 * bounceVel);
@@ -40,11 +35,6 @@ public class BounceCrate : Crate {
             BreakBox(true);
             return;
         }
-        if (rigid.velocity.y < 0f)
-        {
-            invincible = true;
-            return;
-        }
         if (col.gameObject.tag == "Crash")
         {
             if (Crash.S.spinning &&
@@ -55,7 +45,7 @@ public class BounceCrate : Crate {
                 return;
             }
 
-            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
+            bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
             if (Crash.S.falling && landed && Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
             {
                 Crash.S.Bounce(2 * bounceVel);

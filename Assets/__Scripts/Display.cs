@@ -7,7 +7,6 @@ public class Display : MonoBehaviour
 {
     public static Display S;
     public bool lifeFlying = false;
-    public int maxLives = 0;
     public int numFruit = 0;
     public int numLives = 3;
     bool onBreak = false;
@@ -33,6 +32,7 @@ public class Display : MonoBehaviour
     Vector3[] visPos, hidePos;
     Vector3 fruitIconVis, livesIconVis, fruitNumVis, livesNumVis;
     Vector3 fruitIconHide, livesIconHide, fruitNumHide, livesNumHide;
+    public GameObject checkPointCrate;
     void Awake()
     {
         S = this;
@@ -41,6 +41,7 @@ public class Display : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Show();
         fruitIcon = transform.FindChild("FruitIcon");
         livesIcon = transform.FindChild("LivesIcon");
         livesNum = transform.FindChild("NumLives");
@@ -56,6 +57,9 @@ public class Display : MonoBehaviour
         }
         pauseText = transform.FindChild("Pause").GetComponent<Text>();
         pauseText.gameObject.SetActive(false);
+
+        SetFruits(PlayerPrefs.GetInt("Fruits"));
+        SetLives(PlayerPrefs.GetInt("Lives"));
     }
     void Update()
     {
@@ -128,13 +132,15 @@ public class Display : MonoBehaviour
             }
         }
     }
+    public void SetLives(int setLife)
+    {
+        numLives = setLife;
+        livesText.text = numLives.ToString();
+    }
     public void IncrementLives()
     {
-        if (numLives != maxLives)
-        {
             ++numLives;
             livesText.text = numLives.ToString();
-        }
     }
 
     public void DecrementLives()
@@ -148,8 +154,15 @@ public class Display : MonoBehaviour
         else
         {
             // Game Over
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.SetInt("Lives", 3);
             SceneManager.LoadScene("_Scene_GameOver");
         }
+    }
+    public void SetFruits(int setFruits)
+    {
+        numFruit = setFruits;
+        fruitText.text = numFruit.ToString();
     }
     public void OrderIncrementFruit()
     {
@@ -176,7 +189,16 @@ public class Display : MonoBehaviour
         {
             numFruit = 0;
             fruitText.text = "0";
-            IncrementLives();
+            Crash.S.PlaySound("ExtraLife");
+            newLife = Instantiate(Resources.Load("Prefabs/LivesIcon")) as GameObject;
+            newLife.transform.SetParent(gameObject.transform);
+            newLife.transform.localScale = 2.2f * livesIcon.transform.localScale;
+            Vector3 pos = visPos[1];
+            pos.x -= 100f;
+            desPos = pos;
+            newLife.transform.localPosition = pos;
+            lifeFlying = true;
+            Show();
         }
     }
     public void Hide()
@@ -239,5 +261,10 @@ public class Display : MonoBehaviour
             yield return new WaitForSeconds(.2f);
         }
         flickering = true;
+    }
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.SetInt("Lives", 3);
     }
 }

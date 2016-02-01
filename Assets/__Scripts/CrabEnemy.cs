@@ -27,6 +27,10 @@ public class CrabEnemy : Enemy {
 			speed *= -1;
 		}
 		else if(col.gameObject.tag == "Crash"){
+            if(launched)
+            {
+                return;
+            }
 			if(Crash.S.spinning || Crash.S.invincible){
 				LaunchEnemy ();
 				return;
@@ -34,8 +38,7 @@ public class CrabEnemy : Enemy {
 
 			bool killEnemy = Crash.S.collider.bounds.min.y >= boxCol.bounds.max.y - .1f;
 
-			if(Crash.S.falling && killEnemy){
-                CameraFollow.S.AddToRespawn(gameObject);
+			if(Crash.S.jumping && Crash.S.falling && killEnemy){
                 Destroy (this.gameObject);
 				Crash.S.Bounce (3f);
 			}
@@ -44,15 +47,16 @@ public class CrabEnemy : Enemy {
                 if (Crash.S.numMasks > 0)
                 {
                     Crash.S.KnockBack();
-                    CameraFollow.S.AddToRespawn(gameObject);
                     Destroy(this.gameObject);
-                    AkuAkuMask.mask.LoseMask();
+                    Crash.S.LoseMask();
                 }
                 else
                 {
                     Display.S.DecrementLives();
-                    //Display.S.Restart ();
-                    Crash.S.Respawn();
+                    if(Display.S.numLives >= 0)
+                    {
+                        Crash.S.Respawn();
+                    }
                 }
 			}
 		}

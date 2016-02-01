@@ -37,7 +37,7 @@ public class Crate : MonoBehaviour
     {
         if (col.gameObject.tag == "Crab" || col.gameObject.tag == "Turtle")
         {
-            if (Enemy.S.launched)
+            if (col.gameObject.GetComponent<Enemy>().launched)
             {
                 BreakBox(false);
             }
@@ -49,18 +49,18 @@ public class Crate : MonoBehaviour
                 BreakBox(true);
                 return;
             }
-            if ((Crash.S.spinning &&
-                boxCol.bounds.max.y < Crash.S.collider.bounds.center.y))
+            if (Crash.S.spinning &&
+                boxCol.bounds.max.y < Crash.S.collider.bounds.center.y + .2f)
             {
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
                 BreakBox(crateAbove);
                 return;
             }
 
-            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
+            bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
             if (Crash.S.falling && landed)
             {
-                if (Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
+                if (Crash.S.jumping && (Crash.S.toBreak == boxCol))
                 {
                     //The box cannot be crushed if Crash is jumping on it
                     BreakBox(false);
@@ -71,52 +71,28 @@ public class Crate : MonoBehaviour
                     Crash.S.LandOnCrate();
                 }
             }
-            else if(Crash.S.jumping)
+            else if(Crash.S.jumping && Crash.S.collider.bounds.max.y < boxCol.bounds.min.y)
             {
                 BreakBox(true);
-                Vector3 fallVel = Crash.S.rigid.velocity;
-                fallVel.y = 0;
-                Crash.S.rigid.velocity = fallVel;
             }
         }
     }
-
     void OnCollisionStay(Collision col)
     {
         if (col.gameObject.tag == "Crash")
         {
-            if (Crash.S.invincible)
-            {
-                BreakBox(true);
-                return;
-            }
-            if (Crash.S.spinning &&
-                boxCol.bounds.max.y < (Crash.S.collider.bounds.center.y + .01f))
+            if ((Crash.S.spinning &&
+                boxCol.bounds.max.y < Crash.S.collider.bounds.center.y + .2f))
             {
                 bool crateAbove = Physics.Raycast(transform.position, Vector3.up, transform.localScale.y, crateLayerMask);
                 BreakBox(crateAbove);
                 return;
             }
-
-            bool landed = (Crash.S.collider.bounds.center.y + Crash.S.collider.bounds.min.y) / 2f > boxCol.bounds.max.y;
-            if (Crash.S.falling && landed)
-            {
-                if (Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
-                {
-                    //The box cannot be crushed if Crash is jumping on it
-                    BreakBox(false);
-                    Crash.S.Bounce(bounceVel);
-                }
-                else
-                {
-                    Crash.S.LandOnCrate();
-                }
-            }
         }
     }
+
     public virtual void BreakBox(bool crushed)
     {
-        CameraFollow.S.AddToRespawn(gameObject);
         Destroy(this.gameObject);
         Crash.S.PlaySound("CrateBreak");
         if (items == null || items.Count == 0)
@@ -132,17 +108,18 @@ public class Crate : MonoBehaviour
             if (objects.type.name == "AkuAkuMask")
             {
                 rot = Quaternion.Euler(270, 180, 0);
+                pos.z -= .5f;
             }
             if (objects.numObjects == 1 && objects.type.name != "WumpaFruit")
             {
-                pos.y += itemOffset;
+                pos.y += itemOffset + .25f;
                 Instantiate(objects.type, pos, rot);
                 return;
             }
             if (!crushed)
             {
                 //Instantiates all crate objects
-                pos.y += boxCol.bounds.max.y / 2f;
+                pos.y += .5f;
                 for (int i = 0; i < objects.numObjects; ++i)
                 {
                     Vector3 fruitVel = Vector3.zero;

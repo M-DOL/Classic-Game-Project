@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 450608}
   - 65: {fileID: 6586404}
   - 114: {fileID: 11490420}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Killzone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,6 +74,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

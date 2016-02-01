@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class AkuAkuMask : MonoBehaviour {
 	public bool follow = false;
-    public static AkuAkuMask mask;
 
     public Color[] originalColors;
     public Material[] materials; // All the Materials of this & its children
@@ -39,27 +38,19 @@ public class AkuAkuMask : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-        mask = this;
-        if (follow) {
-			Vector3 pos = mask.transform.position;
-			pos.x = Crash.S.transform.position.x + 0.5f;
-			pos.y = Crash.S.transform.position.y + 2f;
-			pos.z = Crash.S.transform.position.z - 1f;
-            mask.transform.position = pos;
+        if (follow && !Crash.S.spinning) {
+            gameObject.transform.parent = Crash.S.transform;
+            gameObject.transform.name = "AkuAkuMask";
+            transform.localPosition = new Vector3(1.2f, .5f, -.1f);
+            transform.localRotation = Quaternion.Euler(270, 270, 90);
             if (Crash.S.numMasks == 3)
             {
-                mask.gameObject.transform.parent = Crash.S.transform;
-                mask.transform.localRotation = Quaternion.identity;
-                Vector3 temp = new Vector3(-0.229f, 0.384f, 1.252f);
-                mask.transform.localPosition = temp;
-            }
-            
-            if(!Crash.S.spinning)
-            {
-                transform.eulerAngles = new Vector3(270, 270, 90) + Crash.S.transform.eulerAngles;
+                gameObject.transform.parent = Crash.S.transform;
+                transform.localRotation = Quaternion.Euler(270, 270, 90);
+                transform.localPosition = new Vector3(-0.229f, 0.5f, 1.4f);
             }
 		}
-        if (Crash.S.numMasks == 2)
+        if (Crash.S.numMasks == 2 && gameObject.transform.parent == Crash.S.transform)
         {
             foreach (Material m in materials)
             {
@@ -73,14 +64,6 @@ public class AkuAkuMask : MonoBehaviour {
             }
         }
 	}
-
-    public virtual void LoseMask()
-    {
-        Crash.S.numMasks--;
-        if (Crash.S.numMasks == 0) {
-            Destroy(mask.gameObject);
-        }
-    }
 
     // Returns a list of all Materials on this GameObject or its children
     static public Material[] GetAllMaterials(GameObject go)
