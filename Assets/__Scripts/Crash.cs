@@ -127,7 +127,7 @@ public class Crash : MonoBehaviour
         {
             jumpCont = false;
         }
-        if(Input.GetKeyDown(KeyCode.I))
+        if(Input.GetKeyDown(KeyCode.I) && !invincible)
         {
             invincible = true;
             PlaySound("Invincible");
@@ -136,7 +136,7 @@ public class Crash : MonoBehaviour
             rendR.material.color = Color.yellow;
             Camera.main.GetComponent<AudioSource>().Pause();
         }
-        if(Input.GetKeyUp(KeyCode.I) && numMasks < 3)
+        else if(Input.GetKeyDown(KeyCode.I) && numMasks < 3 && invincible)
         {
             invincible = false;
             rend.material.color = origColor;
