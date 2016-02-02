@@ -316,6 +316,6 @@ public class Crash : MonoBehaviour
     IEnumerator Restart()
     {
         yield return new WaitForSeconds(.2f);
-        SceneManager.LoadScene("_NSanityBeach_WH");
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

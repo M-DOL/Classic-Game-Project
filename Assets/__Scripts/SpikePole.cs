@@ -12,10 +12,15 @@ public class SpikePole : Enemy {
 	public int raiseTime;
 	public int waitUpTime;
 	public int waitDownTime;
+	public bool vertical;
 
 	public override void Move () {
 		if (dropping) {
-			rigid.velocity = Vector3.down * speed;
+			if (vertical) {
+				rigid.velocity = Vector3.down * speed;
+			} else {
+				rigid.velocity = Vector3.right * speed;
+			}
 			if (timer >= dropTime) {
 				dropping = false;
 				waitDown = true;
@@ -23,7 +28,11 @@ public class SpikePole : Enemy {
 			}
 		}
 		if (raising){
-			rigid.velocity = Vector3.up * speed;
+			if(vertical){
+				rigid.velocity = Vector3.up * speed;
+			} else {
+				rigid.velocity = Vector3.left * speed;
+			}
 			if(timer >= raiseTime){
 				raising = false;
 				waitUp = true;
