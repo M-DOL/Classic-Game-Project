@@ -81,11 +81,6 @@ public class Crash : MonoBehaviour
             transform.position = checkpoint;
             Destroy(Display.S.checkPointCrate);
         }
-        Vector3 cameraPos = transform.position;
-        cameraPos.y += 4f;
-        cameraPos.z -= CameraFollow.S.frontFollowDistance;
-        CameraFollow.S.transform.position = cameraPos;
-
 
         distToGround = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
         groundedOffset = collider.size.x / 2f;
