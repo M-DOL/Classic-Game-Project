@@ -23,7 +23,7 @@ public class CrabEnemy : Enemy {
                 Destroy(col.gameObject);
             }
         }
-        if (col.gameObject.tag == "Wall"){
+		if (col.gameObject.tag == "Wall" || col.gameObject.layer == 11){//11 == crate layer
 			speed *= -1;
 		}
 		else if(col.gameObject.tag == "Crash"){
