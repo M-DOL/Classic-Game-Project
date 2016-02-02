@@ -35,6 +35,7 @@ public class FinCollider : MonoBehaviour
             }
             if(Time.time - flyTime > flyDur)
             {
+                Display.S.Reset();
                 SceneManager.LoadScene("_Scene_Title");
             }
         }

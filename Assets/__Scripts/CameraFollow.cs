@@ -19,6 +19,7 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         newPos = Camera.main.transform.position;
+        newPos.y = Crash.S.sceneCenter.y + 4f; ;
         newPos.z = Crash.S.transform.position.z - frontFollowDistance;
         Camera.main.transform.position = newPos;
     }

@@ -234,11 +234,6 @@ public class Display : MonoBehaviour
         }
         visibleStart = Time.time;
     }
-    public void Restart()
-    {
-        // Reload _Scene_0 to restart the game
-        SceneManager.LoadScene("_Scene0");
-    }
     public void Pause()
     {
         AudioListener.pause = true;

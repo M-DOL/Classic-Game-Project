@@ -47,7 +47,8 @@ public class GameOver : MonoBehaviour
             
             if (!onYes)
             {
-                Application.Quit();
+                Reset();
+                SceneManager.LoadScene("_Scene_Title");
             }
             else
             {
