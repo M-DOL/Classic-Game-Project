@@ -16,9 +16,13 @@ public class TriggerCrate : Crate
     }
     void OnCollisionEnter(Collision col)
     {
-        if(triggered)
+        bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
+        if (triggered)
         {
-            return;
+            if (Crash.S.falling && landed)
+            {
+                Crash.S.LandOnCrate();
+            }
         }
         if (col.gameObject.tag == "Crash")
         {
@@ -34,8 +38,6 @@ public class TriggerCrate : Crate
                 BreakBox(crateAbove);
                 return;
             }
-
-            bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
             if (Crash.S.falling && landed)
             {
                 if (Crash.S.jumping && (Crash.S.toBreak == boxCol || Crash.S.toBreak == null))
@@ -58,7 +60,8 @@ public class TriggerCrate : Crate
         foreach(GameObject invisCrate in invisCrates)
         {
             invisCrate.GetComponent<InvisCrate>().ReplaceBox();
-            yield return new WaitForSeconds(.6f); 
+            Crash.S.PlaySound("Bounce");
+            yield return new WaitForSeconds(.5f); 
         }
     }
 }

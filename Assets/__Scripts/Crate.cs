@@ -78,7 +78,7 @@ public class Crate : MonoBehaviour
                     Crash.S.LandOnCrate();
                 }
             }
-            else if(Crash.S.jumping && Crash.S.collider.bounds.max.y < boxCol.bounds.min.y - .1f)
+            else if(Crash.S.jumping && Crash.S.collider.bounds.max.y < boxCol.bounds.min.y + .1f)
             {
                 BreakBox(true);
             }

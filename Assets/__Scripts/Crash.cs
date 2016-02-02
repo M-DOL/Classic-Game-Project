@@ -57,6 +57,7 @@ public class Crash : MonoBehaviour
     public float pos2D;
     Color origColor;
     Renderer rend, rendL, rendR;
+    public bool ignoreInput = false;
     public static Crash S;
 
     void Awake()
@@ -81,12 +82,6 @@ public class Crash : MonoBehaviour
             transform.position = checkpoint;
             Destroy(Display.S.checkPointCrate);
         }
-        Vector3 cameraPos = transform.position;
-        cameraPos.y += 4f;
-        cameraPos.z -= CameraFollow.S.frontFollowDistance;
-        CameraFollow.S.transform.position = cameraPos;
-
-
         distToGround = gameObject.GetComponent<BoxCollider>().bounds.extents.y;
         groundedOffset = collider.size.x / 2f;
 
@@ -105,6 +100,12 @@ public class Crash : MonoBehaviour
         iV = Input.GetAxis("Vertical");
         spin = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Q);
         jumpStart = Input.GetKeyDown(KeyCode.A);
+        if (ignoreInput)
+        {
+            iH = 0;
+            iV = 0;
+            jumpStart = false;
+        }
         if (spin && !spinning && Time.time - spinEnd > spinCooldown)
         {
             spin = false;

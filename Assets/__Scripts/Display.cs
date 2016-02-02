@@ -19,6 +19,7 @@ public class Display : MonoBehaviour
     public float hideShowSpeed = 150f;
     public Text livesText;
     public Text fruitText;
+    public Text congrats;
     public Vector3 fruitTextPos, lifeTextPos;
     public bool visible = true, hiding = false;
     float start, select;
@@ -47,6 +48,8 @@ public class Display : MonoBehaviour
         livesIcon = transform.FindChild("LivesIcon");
         livesNum = transform.FindChild("NumLives");
         fruitNum = transform.FindChild("NumFruits");
+        congrats = transform.FindChild("Congrats").GetComponent<Text>();
+        congrats.enabled = false;
         elements = new Transform[] { fruitIcon, livesIcon, livesNum, fruitNum };
         livesText = livesNum.GetComponent<Text>();
         fruitText = fruitNum.GetComponent<Text>();
