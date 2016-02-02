@@ -26,6 +26,7 @@ public class Display : MonoBehaviour
     public Text pauseText;
     public GameObject newLife;
     bool flickering = false;
+    bool paused = false;
     public int flickerTimes = 4;
     Vector3 desPos;
     Transform fruitIcon, fruitNum, livesNum, livesIcon;
@@ -67,9 +68,6 @@ public class Display : MonoBehaviour
     }
     void Update()
     {
-        start = Input.GetAxis("Submit");
-        select = Input.GetAxis("Cancel");
-
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Reset();
@@ -80,14 +78,31 @@ public class Display : MonoBehaviour
             Reset();
             SceneManager.LoadScene("_CustomLevel");
         }
+
+        if(paused)
+        {
+            AudioListener.pause = true;
+            Time.timeScale = 0;
+            pauseText.gameObject.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                Time.timeScale = 1;
+                AudioListener.pause = false;
+                pauseText.gameObject.SetActive(false);
+                paused = false;
+                Show();
+            }
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && !paused)
+        {
+            ScreenFader.S.EndScene();
+            paused = true;
+        }
         if (Input.GetKeyDown(KeyCode.W))
         {
             Show();
-        }
-        if (start > 0)
-        {
-            ScreenFader.S.EndScene();
-            Pause();
         }
 
         if (visible && Time.time - visibleStart > visibleDur)
@@ -236,18 +251,7 @@ public class Display : MonoBehaviour
     }
     public void Pause()
     {
-        AudioListener.pause = true;
-        start = Input.GetAxisRaw("Submit");
-        select = Input.GetAxisRaw("Cancel");
-        Time.timeScale = 0;
-        pauseText.gameObject.SetActive(true);
-        if (select > 0)
-        {
-            Time.timeScale = 1;
-            AudioListener.pause = false;
-            pauseText.gameObject.SetActive(false);
-            Show();
-        }
+        paused = true;
     }
     public void lifeFly(Vector3 lifePos)
     {
