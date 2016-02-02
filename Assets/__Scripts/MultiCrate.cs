@@ -84,6 +84,25 @@ public class MultiCrate : Crate
             }
             else if (Crash.S.jumping && Crash.S.collider.bounds.max.y < boxCol.bounds.min.y + .1f)
             {
+                if (fruitsRemaining == 9)
+                {
+                    startTime = Time.time;
+                }
+                if (Time.time - startTime > fruitDuration)
+                {
+                    items = null;
+                }
+                else if (fruitsRemaining > 0)
+                {
+                    --fruitsRemaining;
+                    Vector3 fruitPos = transform.position;
+                    fruitPos.y += .5f;
+                    fruitPos.z -= .5f;
+                    GameObject fruit = Instantiate(fruitPrefab, fruitPos, Quaternion.identity) as GameObject;
+                    fruit.GetComponent<WumpaFruit>().FlyToCounter();
+                    Crash.S.Bounce(bounceVel);
+                    return;
+                }
                 BreakBox(true);
             }
         }

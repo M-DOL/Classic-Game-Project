@@ -16,17 +16,17 @@ public class TriggerCrate : Crate
     }
     void OnCollisionEnter(Collision col)
     {
-        bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
-        if (triggered)
-        {
-            if (Crash.S.falling && landed)
-            {
-                Crash.S.LandOnCrate();
-                return;
-            }
-        }
         if (col.gameObject.tag == "Crash")
         {
+            bool landed = Crash.S.collider.bounds.min.y > boxCol.bounds.max.y - .1f;
+            if (triggered)
+            {
+                if (Crash.S.falling && landed)
+                {
+                    Crash.S.LandOnCrate();
+                    return;
+                }
+            }
             if (Crash.S.invincible)
             {
                 BreakBox(true);

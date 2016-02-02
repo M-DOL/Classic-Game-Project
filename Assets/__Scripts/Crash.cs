@@ -248,6 +248,7 @@ public class Crash : MonoBehaviour
     public void LandOnCrate()
     {
         grounded = true;
+        jumping = false;
     }
 
     public void Bounce(float bounceVel)
