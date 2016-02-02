@@ -22,6 +22,7 @@ public class TriggerCrate : Crate
             if (Crash.S.falling && landed)
             {
                 Crash.S.LandOnCrate();
+                return;
             }
         }
         if (col.gameObject.tag == "Crash")

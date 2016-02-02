@@ -166,8 +166,10 @@ public class Crash : MonoBehaviour
 
         if (spinning)
         {
+            collider.size = new Vector3(1.5f, 1f, 1.5f);
             if (((jumping || falling) && Time.time - spinStartTime > airSpinDuration) || Time.time - spinStartTime > spinDuration)
             {
+                collider.size = new Vector3(1f, 1f, 1f);
                 spinning = false;
                 transform.rotation = prespinRotation;
                 spinEnd = Time.time;
